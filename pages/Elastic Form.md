@@ -4,7 +4,6 @@
 -
 -
 - # Features
-  collapsed:: true
 	- ## 支援遞迴式的 dependOn
 		- 下列範例，當 `name` 的值不是 `hello` 的時候，component `test` 跟 `test2` 都會隱藏
 		  ```javascript

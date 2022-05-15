@@ -9,5 +9,5 @@
 - # Survey
 	- TODO 調查 ptt stock 中的 tag
 - # Features
-	- TODO 每天可以透過 line notify 發通知
-	- TODO 通知中包含十則標的
+	- DONE 每天可以透過 line notify 發通知
+	- DONE 通知中包含十則標的

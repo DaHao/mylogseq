@@ -12,7 +12,8 @@
 - 對我有用的應該就是前面幾個
   先抓這 3 個：標的、新聞、心得
 - # Survey
-	- TODO 調查 ptt stock 中的 tag
+	- DONE 調查 ptt stock 中的 tag
 - # Features
 	- DONE 每天可以透過 line notify 發通知
 	- DONE 通知中包含十則標的
+	- TODO 定期執行 hao-stock

@@ -2,7 +2,11 @@
 	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題
 -
--
+- # 說明
+	- Reset
+	  新增了 reset props
+	  
+	  在一般的情況下
 - # Features
 	- ## 支援遞迴式的 dependOn
 		- 下列範例，當 `name` 的值不是 `hello` 的時候，component `test` 跟 `test2` 都會隱藏

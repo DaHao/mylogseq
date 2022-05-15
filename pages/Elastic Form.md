@@ -1,7 +1,7 @@
+- Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，
 - # Issue
 	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題
--
 - # 說明
 	- Reset
 	  新增了 reset props

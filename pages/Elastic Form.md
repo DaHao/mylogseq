@@ -2,20 +2,23 @@
 - # Properties
 	- | **Property**      | **Value** |   **Description**   |
 	  | :---        |    :----:   |          ---: |
-	  |  date    | Title       | Here's this <br/> test  |
+	  |  date    | Title       | Here's this <br /> test  |
 	  | Paragraph   | Text        | And more      |
+	-
+	- Reset
+	  新增了 reset props
+	    
+	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
+	  但在少數的情況，開發者必須自行控制 form reset 的時機
+	    
+	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
+	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true
 - # Issue
 	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題
-- # 說明
-	- Reset
-	  新增了 reset props
 	  
-	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
-	  但在少數的情況，開發者必須自行控制 form reset 的時機
-	  
-	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
-	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true
+	  加入了 reset flag 來指定重新 reset 的時機，有解決這個問題
+	  但老實說怎麼解決的不太清楚，目前只是推測延後了時機，以致於不會讓 state 互相衝突
 - # Features
 	- ## 支援遞迴式的 dependOn
 		- 下列範例，當 `name` 的值不是 `hello` 的時候，component `test` 跟 `test2` 都會隱藏

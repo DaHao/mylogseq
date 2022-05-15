@@ -1,4 +1,9 @@
-- Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，
+- Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，Spec 的格式以下說明
+- # Properties
+	- | **Property**      | **Value** |   **Description**   |
+	  | :---        |    :----:   |          ---: |
+	  |  date    | Title       | Here's this <br/> test  |
+	  | Paragraph   | Text        | And more      |
 - # Issue
 	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題

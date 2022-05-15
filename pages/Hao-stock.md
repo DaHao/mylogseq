@@ -6,6 +6,11 @@
 - # Code Base
 	- https://github.com/DaHao/hao-stock.git
 -
+- # Ptt Tag
+  ptt 的 tag 分成 9 個
+- 標的、新聞、心得、請益、情報、閒聊、公告、創作、問卷
+- 對我有用的應該就是前面幾個
+  先抓這 3 個：標的、新聞、心得
 - # Survey
 	- TODO 調查 ptt stock 中的 tag
 - # Features

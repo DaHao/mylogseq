@@ -13,6 +13,7 @@
   先抓這 3 個：標的、新聞、心得
 - # Survey
 	- DONE 調查 ptt stock 中的 tag
+	  id:: 628234e2-48b4-477a-acfc-7a2e95fde613
 - # Features
 	- DONE 每天可以透過 line notify 發通知
 	- DONE 通知中包含十則標的

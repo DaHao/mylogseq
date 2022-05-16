@@ -2,3 +2,4 @@
   好像有 api key - -
 -
 -
+- #gemini

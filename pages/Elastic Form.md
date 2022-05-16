@@ -21,11 +21,12 @@
 	  
 	  當 Context 取不到值時，Elastic Form 會使用此 props 來取代原本的 lang
 - # Issue
-	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
+	- DONE Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題
 	  
 	  加入了 reset flag 來指定重新 reset 的時機，有解決這個問題
 	  但老實說怎麼解決的不太清楚，目前只是推測延後了時機，以致於不會讓 state 互相衝突
+	- TODO pipeline / tempate 的 volume mount format 沒有改
 - # Features
 	- ## 支援遞迴式的 dependOn
 		- 下列範例，當 `name` 的值不是 `hello` 的時候，component `test` 跟 `test2` 都會隱藏

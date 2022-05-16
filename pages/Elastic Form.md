@@ -5,7 +5,7 @@
 	  |  date    | Title       | Here's this <br /> test  |
 	  | Paragraph   | Text        | And more      |
 	-
-	- Reset
+	- ## Reset
 	  新增了 reset props
 	    
 	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
@@ -13,6 +13,13 @@
 	    
 	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
 	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true
+	- ## lang
+	  Elastic form 會使用 useContext 來取得 lang 的值
+	  
+	  但是 lang 是在 登入之後才會放進 Context 中，因此在登入之前是取不到 lang Object 的  
+	  所以 elastic form 提供替代的 props 
+	  
+	  當 Context 取不到值時，Elastic Form 會使用此 props 來取代原本的 lang
 - # Issue
 	- Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題

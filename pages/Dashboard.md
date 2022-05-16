@@ -1,6 +1,6 @@
+- # Later
+	- {{query ( todo LATER )}}
 - # Todo
 	- {{query #TODO }}
 	-
 -
-- # Later
-	- {{query ( todo LATER )}}

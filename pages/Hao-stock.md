@@ -17,3 +17,6 @@
 	- DONE 每天可以透過 line notify 發通知
 	- DONE 通知中包含十則標的
 	- TODO 定期執行 hao-stock
+	- TODO 加上 rank 功能
+	- TODO 加上新聞功能
+	- TODO 加上 心得功能

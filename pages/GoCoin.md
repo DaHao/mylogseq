@@ -7,6 +7,10 @@
 			  
 			  如果有需要的話 paas project 以子錢包呈現
 			  但這樣又牽扯到，那預設要給 paas 子錢包多少 quota ？
+		- workspace 這個 term 不想外露給 user 知道
+		  user 在 portal 中 建立 workspace 好像沒有什麼意義？
+		- 承上，因此 workerspace 在 portal 中的 term 可能會轉化成 project 之類的
+		  e.g.  assign
 	-
 - ------------
 - # Entity

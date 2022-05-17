@@ -7,5 +7,7 @@
 - # Price
 	- 如果 price 是跟著 entity 走的話，好像不需要 workspace id ？
 		- 有可能 entity 是一個 ws id，price 又是另外一個 ws id 嗎？
+		- 錢包才一定需要 workspace，如果是 entity & price 的話就是可選的選項
+		-
 -
 - #gemini

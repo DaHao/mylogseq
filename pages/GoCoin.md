@@ -2,7 +2,12 @@
 -
 - # Rule
 	- workerspace 綁定 project
-		- 問題是綁定的是 portal project 還是
+		- 問題是綁定的是 portal project 還是 paas project
+			- 我目前覺得應該是綁定 portal project
+			  
+			  如果有需要的話 paas project 以子錢包呈現
+			  但這樣又牽扯到，那預設要給 paas 子錢包多少 quota ？
+	-
 -
 - # Entity
 	- delete 是 soft delete ？不然怎麼會有 deleted_at 的時間

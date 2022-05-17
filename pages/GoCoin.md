@@ -4,16 +4,18 @@
 	- workerspace 綁定 project
 		- 問題是綁定的是 portal project 還是 paas project
 			- 我目前覺得應該是綁定 portal project
-			  
-			  如果有需要的話 paas project 以子錢包呈現
-			  但這樣又牽扯到，那預設要給 paas 子錢包多少 quota ？
 		-
 		- workspace 這個 term 不想外露給 user 知道
 		  user 在 portal 中 建立 workspace 好像沒有什麼意義？
 		-
 		- 承上，因此 workerspace 在 portal 中的 term 可能會轉化成 project 之類的
 		  e.g.  assign  A 錢包 到 default project
-	- wallet 綁 workerspce
+	- 母錢包綁定 workerspace 也就是綁定 project
+	- 子錢包綁定 project + user
+	-
+	- entity / price 的 workerspace 為 optional
+		- 但是如果 entity 有給 ws 的話，price 的 ws 需跟 entity 一致
+		- 再如果 entity 的 ws 是 null 的話，price 還是可以給 ws
 	-
 - ------------
 - # Entity

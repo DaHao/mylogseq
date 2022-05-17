@@ -1,5 +1,9 @@
 - portal 的 backend log，好像有 api key - -
 -
+- # Rule
+	- workerspace 綁定 project
+		- 問題是綁定的是 portal project 還是
+-
 - # Entity
 	- delete 是 soft delete ？不然怎麼會有 deleted_at 的時間
 	- schema 有沒有 spec

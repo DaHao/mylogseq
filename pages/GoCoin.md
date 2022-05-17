@@ -1,6 +1,8 @@
 - portal 的 backend log，好像有 api key - -
 -
-- entity 的 delete 是 soft delete ？不然怎麼會有 deleted_at 的時間
-- entity 的 schema 有沒有 spec
+- # Entity
+	- delete 是 soft delete ？不然怎麼會有 deleted_at 的時間
+	- schema 有沒有 spec
+-
 -
 - #gemini

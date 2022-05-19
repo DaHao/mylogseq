@@ -10,7 +10,7 @@
 	  新增了 reset props
 	    
 	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
-	  但在少數的情況，開發者必須自行控制 form reset 的時機
+	  但在少數的情況，開發者必須自行控制 form reset 的時機[[]()]()
 	    
 	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
 	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true

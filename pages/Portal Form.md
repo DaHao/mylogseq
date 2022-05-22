@@ -7,6 +7,10 @@
 	  | Paragraph   | Text        | And more      |
 	- ## DisableIgnore
 	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
+	  主要是設計給 stepForm 做使用，舉例來說：
+	  
+	  Create Job 的 commandType 設定為 ignore，可是在 Next 之後的 elasticForm 仍然會需要這個值
+	  所以需要 `disableIngore` 來輸出 ignore 的資料
 	- ## Reset
 	  新增了 reset props
 	    

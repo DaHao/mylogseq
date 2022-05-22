@@ -5,7 +5,8 @@
 	  | :---        |    :----:   |          ---: |
 	  |  date    | Title       | Here's this <br /> test  |
 	  | Paragraph   | Text        | And more      |
-	-
+	- ## DisableIgnore
+	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
 	- ## Reset
 	  新增了 reset props
 	    

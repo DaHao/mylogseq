@@ -1,0 +1,5 @@
+- # RowCount 規則
+	- 基本值是 1
+	- 如果有 initData 的話，取 initData 的 length
+	- 如果 initData.length 超過 rowMaximum 的話，取 rowMaximum
+-

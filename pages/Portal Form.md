@@ -72,4 +72,7 @@
 	  ```
 - 之所以要轉化成 insideFormSpec 的原因在於，我不希望每一次 reducer dispatch 的時候，reducer 都必須要跑一次迴圈來找出 target spec 在哪裡
 - 拿 spec key 當 key 的話，可以很輕易的快速找出我要的 target spec
+-
+- # Input Component
+	- [[MultiColEntryInput]]
 - #gemini

@@ -81,7 +81,18 @@
 		- ### AutoValue
 		  當滿足 autoValue 的條件之後，此 component 會將特定的 value 填入指定的欄位
 		  **Format**
-		  ```json
+		  ```javascript
+		  // 當其它 component value === <other component vlaue> 的時候
+		  // 
+		  {
+		    <component key>: {
+		    	field: <specific field>,
+		      data: {
+		      	<other component value>: <value can be string, object, array>,
+		          // key pair as first one
+		      }
+		    }
+		  }
 		  ```
 		  ```json
 		  {

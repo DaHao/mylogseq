@@ -82,19 +82,29 @@
 		  當滿足 autoValue 的條件之後，此 component 會將特定的 value 填入指定的欄位
 		  **Format**
 		  ```javascript
-		  // 
-		  // 
-		  {
+		  // 當 <component key> 的 value 符合 data 中的 <other component value> 值時  
+		  // 被設定 autoValue 的 componet 的 <specific field> 欄位的值將會被替換成 <value as string, object, array>
+		  autoValue: {
 		    <component key>: {
 		    	field: <specific field>,
 		      data: {
-		      	<other component value>: <value can be string, object, array>,
+		      	<other component value>: <value as string, object, array>,
 		          // key pair as first one
 		      }
 		    }
 		  }
 		  ```
 		  ```json
+		  // 範例 1
+		  {
+		    key: 'secret',
+		    label: 'variable',
+		    type: 'select',
+		    options: [
+		      { label: 'testSecret1', value: 'testSecret1' },
+		      { label: 'testSecret2', value: 'testSecret2' },
+		    ],
+		  },
 		  {
 		    key: 'value',
 		    label: 'variable',
@@ -114,6 +124,20 @@
 		        },
 		      },
 		    },
+		  }
+		  
+		  // 範例 2
+		  {
+		    // ...
+		    autoValue: {
+		      secret: {
+		        field: 'value',
+		        data: {
+		          testSecret1: 'autoValue1',
+		          testSecret2: 'autoValue2'
+		        },
+		      },
+		    }
 		  }
 		  ```
 - #gemini

@@ -74,5 +74,35 @@
 - 拿 spec key 當 key 的話，可以很輕易的快速找出我要的 target spec
 -
 - # Input Component
-	- [[MultiColEntryInput]]
+	- ## List
+		- [[MultiColEntryInput]]
+	- ## Common Properties
+	  此處列出所有的 Input Component 都可以用的 property
+		- ### AutoValue
+		  當滿足 autoValue 的條件之後，此 component 會將特定的 value 填入指定的欄位
+		  **Format**
+		  ```json
+		  ```
+		  ```json
+		  {
+		    key: 'value',
+		    label: 'variable',
+		    type: 'select',
+		    autoValue: {
+		      secret: {
+		        field: 'options',
+		        data: {
+		          testSecret1: [
+		            { label: 'test1', value: 'value1' },
+		            { label: 'test2', value: 'value2' },
+		          ],
+		          testSecret2: [
+		            { label: 'test3', value: 'value3' },
+		            { label: 'test4', value: 'value4' },
+		          ],
+		        },
+		      },
+		    },
+		  }
+		  ```
 - #gemini

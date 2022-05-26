@@ -1,6 +1,6 @@
 - TODO row limit
 - DONE dependonac
-- TODO error display
+- DONE error display
 -
 - {{renderer :tocgen}}
 - # Properties

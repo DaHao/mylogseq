@@ -3,9 +3,14 @@
 - DONE error display
 -
 - {{renderer :tocgen}}
+- 現在 MCEInput 支援所有 elastic form 可以用的 Input Component
 - # Properties
 	- ## addMoreOptions
-		- 設定有關 addMore label 的參數
+		- 設定有關 addMore 的參數
+		- **label**
+		  Add More 要顯示什麼文字
+		- **disabled**
+		  不顯示 add More
 	- ## colSpec
 		- 設定 MCEInput 每一行的內容
 	- ## customBtnOptions

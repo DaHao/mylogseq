@@ -145,7 +145,7 @@
 -
 - # 輔助檔案
 	- ## FormUtils
-		- 放整個 form 會用到的 function，其它程式也可能會用到的
+		- 放整個 form 會用到的 function，其它程式也可能會用到的也放這裡
 	- ## FormHook
 		- 放 form 會用到的 hook，只有 hook 會用到的 function 也放這裡面
 	-

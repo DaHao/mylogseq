@@ -68,7 +68,7 @@
 	  
 	  加入了 reset flag 來指定重新 reset 的時機，有解決這個問題
 	  但老實說怎麼解決的不太清楚，目前只是推測延後了時機，以致於不會讓 state 互相衝突
-	- TODO pipeline / template 的 volume mount format 沒有改
+	- DONE pipeline / template 的 volume mount format 沒有改
 	  好像是我的問題，format 的格式是正確的
 	- TODO pipeline / template 的 stage job 編輯跟 duplicate 都是空白
 - # Features

@@ -15,10 +15,14 @@
 		- 設定 MCEInput 每一行的內容
 	- ## customBtnOptions
 		- 設定行尾的客製化 Button
+		- **onClick**
+		  點擊會觸發的 function
+		- **disabled**
+		  disabled === true 時，只顯示，不可點擊
 	- ## enableMultiLine
 		- 是否啟用多行模式，在多行模式下，colSpec 的每個 spec 都會獨立一行
 	- ## enableNumbered
-		- 是否在每行的開頭加上編號
+		- 是否在每行的開頭加上編號，從 A-Z，目前不支援超過 Z 的情況
 	- ## error
 		- 顯示的 error string
 	- ## handleChange

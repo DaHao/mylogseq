@@ -1,10 +1,9 @@
+- {{renderer :tocgen}}
 - Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，Spec 的格式以下說明
   title:: Portal Form
 - # Properties
-	- | **Property**      | **Value** |   **Description**   |
-	  | :---        |    :----:   |          ---: |
-	  |  date    | Title       | Here's this <br /> test  |
-	  | Paragraph   | Text        | And more      |
+	- ## CancelOption
+		-
 	- ## DisableIgnore
 	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
 	  主要是設計給 stepForm 做使用，舉例來說：

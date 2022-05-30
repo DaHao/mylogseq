@@ -8,12 +8,23 @@
 		  disabled === true 時，該按鈕可見，但不可點按
 		- **label**
 		  在 取消按鈕 上顯示的文字
+	- ## CustomBtnOptions
+	  設定 客製化按鈕 的樣式
+		- **disabled**
+		  disabled === true 時，該按鈕可見，但不可點按
+		- **label**
+		  在 取消按鈕 上顯示的文字
 	- ## DisableIgnore
 	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
 	  主要是設計給 stepForm 做使用，舉例來說：
 	  
 	  Create Job 的 commandType 設定為 ignore，可是在 Next 之後的 elasticForm 仍然會需要這個值
 	  所以需要 `disableIngore` 來輸出 ignore 的資料
+	- ## FormSpec
+	  設定 Elastic Form 要呈現的 Componet
+	  需要按照 Input Component 的格式來給 Spec
+	  
+	  可以參考 ((628cbd65-e9a3-4cf5-94dc-3eba29c59790))
 	- ## Reset
 	  新增了 reset props
 	    
@@ -77,9 +88,9 @@
 - 拿 spec key 當 key 的話，可以很輕易的快速找出我要的 target spec
 -
 - # Input Component
-	- ## List
-		- [[MultiColEntryInput]]
+  id:: 628cbd65-e9a3-4cf5-94dc-3eba29c59790
 	- ## Common Properties
+	  collapsed:: true
 	  此處列出所有的 Input Component 都可以用的 property
 		- ### AutoValue
 		  當滿足 autoValue 的條件之後，此 component 會將特定的 value 填入指定的欄位
@@ -143,4 +154,6 @@
 		    }
 		  }
 		  ```
+	- ## Items
+		- [[MultiColEntryInput]]
 - #gemini

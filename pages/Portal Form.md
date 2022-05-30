@@ -2,37 +2,33 @@
 - Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，Spec 的格式以下說明
   title:: Portal Form
 - # Properties
-	- ## CancelOption
+	- ## cancelOption
 	  設定 取消按鈕 的樣式
 		- **disabled**
 		  disabled === true 時，該按鈕可見，但不可點按
 		- **label**
 		  在 取消按鈕 上顯示的文字
-	- ## CustomBtnOptions
+	- ## customBtnOptions
 	  設定 客製化按鈕 的樣式
 		- **disabled**
 		  disabled === true 時，該按鈕可見，但不可點按
 		- **label**
 		  在 取消按鈕 上顯示的文字
-	- ## DisableIgnore
+	- ## disableIgnore
 	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
 	  主要是設計給 stepForm 做使用，舉例來說：
 	  
 	  Create Job 的 commandType 設定為 ignore，可是在 Next 之後的 elasticForm 仍然會需要這個值
 	  所以需要 `disableIngore` 來輸出 ignore 的資料
-	- ## FormSpec
+	- ## formSpec
 	  設定 Elastic Form 要呈現的 Componet
 	  需要按照 Input Component 的格式來給 Spec
 	  
 	  可以參考 ((628cbd65-e9a3-4cf5-94dc-3eba29c59790))
-	- ## Reset
-	  新增了 reset props
-	    
-	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
-	  但在少數的情況，開發者必須自行控制 form reset 的時機
-	    
-	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
-	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true
+	- ## formStyle
+	  設定 Elastic Form 最外圍的 `div` 元素樣式
+	- ## initData
+	  設定初始化的資料
 	- ## lang
 	  Elastic form 會使用 useContext 來取得 lang 的值
 	  
@@ -40,6 +36,32 @@
 	  所以 elastic form 提供替代的 props 
 	  
 	  當 Context 取不到值時，Elastic Form 會使用此 props 來取代原本的 lang
+	- ## loading
+	  loading === true 時，顯示 Loading 樣式
+	- ## onCancel
+	  按下取消按鈕時，會觸發的 function
+	- ## onCusButtonSubmit
+	  按下 客製化按鈕 時，會觸發的 function
+	- ## onSubmit
+	  按下 送出按鈕 時，會觸發的 function
+	- ## percent
+	  當有給 percent 值時，loading 會在畫面上顯示進度百分比
+	- ## readOnly
+	  將整個 elastic form 設定成唯讀
+	- ## reset
+	  新增了 reset props
+	    
+	  在一般的情況下 elastic form 會自己掌握 reset form 的時機
+	  但在少數的情況，開發者必須自行控制 form reset 的時機
+	    
+	  當 reset === true 時，表示 form 會在 formSpec 改變時重新 render
+	  當 reset === false 時，表示 form 不會在 formSepc 改變時重新 render，直到 reset === true
+	- ## submitOptions
+	  設定 送出按鈕 的樣式
+		- **disabled**
+		  disabled === true 時，該按鈕可見，但不可點按
+		- **label**
+		  在 取消按鈕 上顯示的文字
 - # Issue
 	- DONE Setting 的 smtp form 更新時，form value 會瘋狂的變動
 	  看起來是因為 formspec 的更新問題

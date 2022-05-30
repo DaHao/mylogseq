@@ -112,7 +112,6 @@
 - # Input Component
   id:: 628cbd65-e9a3-4cf5-94dc-3eba29c59790
 	- ## Common Properties
-	  collapsed:: true
 	  此處列出所有的 Input Component 都可以用的 property
 		- ### AutoValue
 		  當滿足 autoValue 的條件之後，此 component 會將特定的 value 填入指定的欄位

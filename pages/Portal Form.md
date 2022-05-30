@@ -3,7 +3,11 @@
   title:: Portal Form
 - # Properties
 	- ## CancelOption
-		-
+	  設定 取消按鈕 的樣式
+		- **disabled**
+		  disabled === true 時，該按鈕可見，但不可點按
+		- **label**
+		  在 取消按鈕 上顯示的文字
 	- ## DisableIgnore
 	  這個 property 設定為 true 的話，最後輸出的 formData 仍然會包含 ignore 的 component 資料
 	  主要是設計給 stepForm 做使用，舉例來說：

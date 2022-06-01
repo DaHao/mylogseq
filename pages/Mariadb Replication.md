@@ -41,7 +41,8 @@
   
   -- 查看 binlog 的檔案
   -- binlog 通常在 /var/lib/mysql/binlog 這個位置
-  
+  -- 此指令需在 pod 裡面執行
+  $ mysqlbinlog --start-position=243387732 mysql-binlog.000025
   ```
 - # 設定 Mariadb Replication
   

@@ -12,6 +12,7 @@
   stop slave
   -- 刪除 relay logs
   reset slave
+  reset slave all -- or 'reset all slave'
   
   -- 跳過 n 個 SQL 錯誤
   set global sql_slave_skip_counter = n

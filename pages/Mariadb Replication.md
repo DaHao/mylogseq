@@ -1,4 +1,5 @@
-- -- SQL Command
+- ```sql
+  -- SQL Command
   
   -- 設定 replication 
   -- 假設現在有 2 台 k8s，k8s1 & k8s2
@@ -37,6 +38,11 @@
   
   -- 轉換 binlog position 為 gtid
   select BINLOG_GTID_POS("LOG_FILE", LOG_POS)
+  
+  -- 查看 binlog 的檔案
+  -- binlog 通常在 /var/lib/mysql/binlog 這個位置
+  
+  ```
 - # 設定 Mariadb Replication
   
   1. 按照平常的程序在 k8s1 & k8s2 開好 galera db

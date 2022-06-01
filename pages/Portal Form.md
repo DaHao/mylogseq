@@ -1,5 +1,4 @@
 - {{renderer :tocgen}}
-
 - Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，Spec 的格式以下說明
   title:: Portal Form
 - # Properties
@@ -69,7 +68,7 @@
 	  
 	  加入了 reset flag 來指定重新 reset 的時機，有解決這個問題
 	  但老實說怎麼解決的不太清楚，目前只是推測延後了時機，以致於不會讓 state 互相衝突
-	- TODO pipeline / template 的 volume mount format 沒有改
+	- DONE pipeline / template 的 volume mount format 沒有改
 	  好像是我的問題，format 的格式是正確的
 	- TODO pipeline / template 的 stage job 編輯跟 duplicate 都是空白
 - # Features
@@ -176,13 +175,12 @@
 		    }
 		  }
 		  ```
-
+	- # Items
+		- [[MultiColEntryInput]]
 - # 輔助檔案
 	- ## FormUtils
 		- 放整個 form 會用到的 function，其它程式也可能會用到的也放這裡
 	- ## FormHook
 		- 放 form 會用到的 hook，只有 hook 會用到的 function 也放這裡面
 	-
-	- ## Items
-		- [[MultiColEntryInput]]
 - #gemini

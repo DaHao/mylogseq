@@ -1,7 +1,7 @@
 - DONE row limit
 - DONE dependonac
 - DONE error display
-- TODO [#A] 測試 required 情境
+- DONE [#A] 測試 required 情境
 -
 - {{renderer :tocgen}}
 - 現在 MCEInput 支援所有 elastic form 可以用的 Input Component

@@ -1,45 +1,50 @@
-# Command
-```sql
--- SQL Command
-
--- 設定 replication 
--- 假設現在有 2 台 k8s，k8s1 & k8s2
--- 這個指令在 k8s2 上設定 Master host(host 會是 k8s1 的 ip/domain) 指向 k8s1 的意思會是，單向的將 k8s1 的資料倒向 k8s2
--- 資料流會是從 Master(k8s1) > slave(k8s2)
-change master to ...
-
--- 操作 slave
-start slave
-stop slave
--- 刪除 relay logs
-reset slave
-
--- 跳過 n 個 SQL 錯誤
-set global sql_slave_skip_counter = n
--- 忽略所有錯誤，此參數無法在啟動 mysql 後修改
-SLAVE_SKIP_ERRORS = ALL
-
--- 顯示 relay log
-show relaylog events
--- 顯示 slave 狀態
-show slave status
--- 顯示 master 狀態
-show master status
--- 顯示 slave 的資訊
-show slave hosts
-
--- 刪除 binary logs
--- delete 前請先 flush log，並停止 replication
-reset master 
-
--- delete all binary logs
-flush logs;
-reset master
-reset slave;
-
--- 轉換 binlog position 為 gtid
-select BINLOG_GTID_POS("LOG_FILE", LOG_POS)
-```
+- ```sql
+  -- SQL Command
+  
+  -- 設定 replication 
+  -- 假設現在有 2 台 k8s，k8s1 & k8s2
+  -- 這個指令在 k8s2 上設定 Master host(host 會是 k8s1 的 ip/domain) 指向 k8s1 的意思會是，單向的將 k8s1 的資料倒向 k8s2
+  -- 資料流會是從 Master(k8s1) > slave(k8s2)
+  change master to ...
+  
+  -- 操作 slave
+  start slave
+  stop slave
+  -- 刪除 relay logs
+  reset slave
+  reset slave all -- or 'reset all slave'
+  
+  -- 跳過 n 個 SQL 錯誤
+  set global sql_slave_skip_counter = n
+  -- 忽略所有錯誤，此參數無法在啟動 mysql 後修改
+  SLAVE_SKIP_ERRORS = ALL
+  
+  -- 顯示 relay log
+  show relaylog events
+  -- 顯示 slave 狀態
+  show slave status
+  -- 顯示 master 狀態
+  show master status
+  -- 顯示 slave 的資訊
+  show slave hosts
+  
+  -- 刪除 binary logs
+  -- delete 前請先 flush log，並停止 replication
+  reset master 
+  
+  -- delete all binary logs
+  flush logs;
+  reset master
+  reset slave;
+  
+  -- 轉換 binlog position 為 gtid
+  select BINLOG_GTID_POS("LOG_FILE", LOG_POS)
+  
+  -- 查看 binlog 的檔案
+  -- binlog 通常在 /var/lib/mysql/binlog 這個位置
+  -- 此指令需在 pod 裡面執行
+  $ mysqlbinlog --start-position=243387732 mysql-binlog.000025
+  ```
 - # 設定 Mariadb Replication
   
   1. 按照平常的程序在 k8s1 & k8s2 開好 galera db

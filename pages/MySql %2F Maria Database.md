@@ -2,6 +2,9 @@
   ```
   docker run -d --name mariadb -p 3306:3306 -e "MYSQL_USER=kong" -e "MYSQL_PASSWORD=kong" -e "MYSQL_ROOT_PASSWORD=123123" -e "MYSQL_DATABASE=kong" mariadb:10.3.7
   ```
+- # K8S Image Source
+  Portal 的 mariadb 是根據這份 k8s image 改的
+  https://github.com/ausov/k8s-mariadb-cluster
 - # Backup & Restore
   ```bash
   # 備份單一資料庫

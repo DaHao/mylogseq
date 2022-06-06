@@ -4,7 +4,6 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-executeCmd	autoPush.js	/^function executeCmd(cmd) {$/;"	F
-executeCmd	logseq/bak/autoPush/2022-06-06T01_54_59.263Z.js	/^function executeCmd(cmd) {$/;"	F
-executeCmd	logseq/bak/autoPush/2022-06-06T01_55_11.107Z.js	/^function executeCmd(cmd) {$/;"	F
-executeCmd	logseq/bak/autoPush/2022-06-06T01_56_17.069Z.js	/^function executeCmd(cmd) {$/;"	F
+executeCmd	logseq/bak/autoPush/2022-06-06T01_57_36.362Z.js	/^function executeCmd(cmd) {$/;"	F
+executeCmd	logseq/bak/autoPush/2022-06-06T01_59_59.302Z.js	/^function executeCmd(cmd) {$/;"	F
+executeCmd	logseq/bak/autoPush/2022-06-06T02_01_58.381Z.js	/^function executeCmd(cmd) {$/;"	F

@@ -104,6 +104,7 @@
 	  create user if not exists 'repl'@'%' IDENTIFIED BY 'password';
 	  grant replication slave on *.* to 'repl'@'%';
 	  flush privileges;
+	  
 	  ```
 	  
 	  4. 修改 replication.sql 並 cp 在 k8s1 上的 galera 執行

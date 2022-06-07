@@ -43,7 +43,7 @@
   -- 查看 binlog 的檔案
   -- binlog 通常在 /var/lib/mysql/binlog 這個位置
   -- 此指令需在 pod 裡面執行
-  $ mysqlbinlog --start-position=243387732 mysql-binlog.000025
+  $ mysqlbinlog --no-defaults --start-position=243387732 mysql-binlog.000025
   ```
 - # 設定 Mariadb Replication
   
@@ -104,6 +104,7 @@
 	  create user if not exists 'repl'@'%' IDENTIFIED BY 'password';
 	  grant replication slave on *.* to 'repl'@'%';
 	  flush privileges;
+	  
 	  ```
 	  
 	  4. 修改 replication.sql 並 cp 在 k8s1 上的 galera 執行

@@ -2,8 +2,9 @@
 - # Use Case
   portal 幻想版
 	- 每個 Project 有一個 wallet (owner: project id + admin id)
-		- 每個 Project 底下的 user 有一個 child wallet
+		- 每個 Project 底下的 user 有一個 child wallet (owner: project id + user id)
 		- User 在各個 Project 擁有的 wallet 不相同
+	-
 - # Rule
 	- workerspace 綁定 project
 		- 問題是綁定的是 portal project 還是 paas project

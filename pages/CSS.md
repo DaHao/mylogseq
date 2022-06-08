@@ -30,7 +30,7 @@
 	  ```
 	- ## 在特定行數省略文字
 	- 寫法
-	- ```html
+	  ```html
 	  This text is trimmed to 3 lines
 	  <div class="tile">
 	  <p class="line-clamp">
@@ -38,14 +38,16 @@
 	    An ellipsis will be shown at the point where the text is clamped.
 	  </p>
 	  </div>
-	- This text is trimmed to 4 lines
+	  
+	  This text is trimmed to 4 lines
 	  <div class="tile">
 	  <p class="line-clamp line-clamp--four">
 	    You can use <code>-webkit-line-clamp</code> property to truncate the text to the specific number of lines.
 	    An ellipsis will be shown at the point where the text is clamped.
 	  </p>
 	  </div>
-	- This text is not trimmed
+	  
+	  This text is not trimmed
 	  <div class="tile">
 	  <p>
 	    You can use <code>-webkit-line-clamp</code> property to truncate the text to the specific number of lines.
@@ -53,12 +55,13 @@
 	  </p>
 	  </div>
 	  ```
+	  
 	  ```css
 	  body {
 	  padding: 20px;
 	  font-family: 'Open Sans', sans-serif;
 	  }
-	- .tile {
+	  .tile {
 	  background: linear-gradient(to right, #2B32B2, #1488CC);
 	  padding: 15px;
 	  margin-bottom: 15px;

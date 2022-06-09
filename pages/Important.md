@@ -2,6 +2,8 @@
 Personal ID: Huang N222446791
 
 Netfilx: ncharles.netflix.xyz@gmail.com / iltwagemini
+-
+- esun: esun4rfv5tgb
 # 被遺忘的 google account 
 1097108139@gm.kuas.edu.tw
 # MEGA

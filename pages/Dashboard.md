@@ -3,6 +3,5 @@
 	  query-table:: false
 	-
 - # Later
-  collapsed:: true
 	- {{query ( todo LATER )}}
 -

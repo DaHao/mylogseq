@@ -23,6 +23,7 @@ gemini/password
 		- [https://gitlab.com/geminiopencloud/engineering/portal/xportal/-/merge\_requests/689/diffs?resolved\_conflicts=true](https://gitlab.com/geminiopencloud/engineering/portal/xportal/-/merge_requests/689/diffs?resolved_conflicts=true)
 	- 更新 1.7.0 至 逢甲 branch
 - # 桂華
+  id:: 71f6fb1f-791e-4efd-a046-06818505f060
 	- 環境：
 	  https://gitlab.com/geminiopencloud/engineering/portal/xportal/-/wikis/environment/%E6%A1%82%E8%8F%AF-GuiHua-%E7%92%B0%E5%A2%83%E8%B3%87%E8%A8%8A
 	  

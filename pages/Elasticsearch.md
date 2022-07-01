@@ -1,8 +1,9 @@
 - {{renderer :tocgen}}
 - # 概念對照
-	-
+	- ![image.png](../assets/image_1656664271338_0.png)
 - # Command
 	- ## Search
 	- **Index**
-		- `curl http://localhost:9200/_cat/indices/`
+		- `curl http://localhost:9200/_cat/indices/?v`
+		- 加上 `?v` 可以列出欄位
 		- ![image.png](../assets/image_1656663393219_0.png)

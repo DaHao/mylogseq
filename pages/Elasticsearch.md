@@ -7,3 +7,8 @@
 		- `curl http://localhost:9200/_cat/indices/?v`
 		- 加上 `?v` 可以列出欄位
 		- ![image.png](../assets/image_1656663393219_0.png)
+	- **Document**
+		- `curl http://localhost:9200/<index>/_search`
+		- ![image.png](../assets/image_1656664735713_0.png)
+	-
+	-

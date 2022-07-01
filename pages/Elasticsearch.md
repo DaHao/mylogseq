@@ -1,0 +1,8 @@
+- {{renderer :tocgen}}
+- # 概念對照
+	-
+- # Command
+	- ## Search
+	- **Index**
+		- `curl http://localhost:9200/_cat/indices/`
+		- ![image.png](../assets/image_1656663393219_0.png)

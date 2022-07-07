@@ -1,5 +1,6 @@
 - {{renderer :tocgen}}
 - # 基本操作 Basic
+  collapsed:: true
 	- ## 搜尋
 	  collapsed:: true
 		- Host ip 要改成LDAP Server domain/IP
@@ -138,318 +139,316 @@
 		  # 除了 createtimestamp 外，還有 modifytimestamp
 		  # 用 replication 同步過來的 Entry，建立時間還是原本的時間，不是同步的時間，因此要看 modifytimestamp
 		  ```
-### 新增 DIT
-
-OpenLDAP 支援建立多個 RootDN
-- 方法一 slapd.conf  
-    這個方法適用於 slapd.conf 來做初始化 LDAP 的時候  
-    在原本的 slapd.conf 下再新增 database  
-    ![c1eaf10b0450b11a787b7ff01a6c51ad.png](:/b2abf54344dc4f9ab2acb9a1415d40db)
-    
-    新增完後再執行
-    
-    ```
-    $ service slapd stop
-    $ slaptest -f slapd.conf  -F slapd.d/
-    $ chown -R openldap:openldap slapd.d/
-    $ service slapd start
-    
-    # 測試
-    $ ldapsearch -xb '' -s base +
-    ```
-    
-    加進第二個 DIT 的時候，可以直接用 slaptest 而不用砍掉 slapd.d/ 資料夾  
-    建立 DIT 之後，記得建立一個 RootDN
-    
-    ```
-    # e.q. rootDN.ldif
-    
-    # iam.nchc.org.tw
-    dn: dc=iam,dc=nchc,dc=org,dc=tw
-    objectClass: top
-    objectClass: dcObject
-    objectClass: organization
-    o: NCHC ORG.
-    dc: iam
-    
-    # admin, iam.nchc.org.tw
-    dn: cn=admin,dc=iam,dc=nchc,dc=org,dc=tw
-    objectClass: simpleSecurityObject
-    objectClass: organizationalRole
-    cn: admin
-    description: LDAP administrator
-    userPassword:: e1NTSEF9ekN2ZnFMOG1MUzJwRTBSdExhYkxzM3lNTWpjMWxybjY=
-    ```
-    
-    執行 `ldapadd -xD cn=admin,dc=xxx,dc=xxx -W -f rootDN.ldif`
-- 方式二 ldif  
-    我們也可以利用 ldif 檔來建立 database
-    
-    ```
-    # mdb.ldif
-    dn: olcDatabase=mdb,cn=config
-    objectClass: olcDatabaseConfig
-    objectClass: olcMdbConfig
-    olcDatabase: mdb
-    olcDbDirectory: /var/lib/ldap2
-    olcSuffix: dc=example,dc=com
-    olcRootDN: cn=admin,dc=example,dc=com
-    olcRootPW: password
-    olcDbIndex: objectClass eq
-    ```
-    
-    執行 `ldapadd -xD cn=config -W -f mdb.ldif`  
-    有幾點要注意
-	- `olcDbDirectory` 似乎不能跟前一個 DIT 重複
-	- 記得先改變 `olcDbDirectory` 的權限設定，  
-	    `chown openldap:openldap /var/lib/ldap`
+- # 新增 DIT
+	- OpenLDAP 支援建立多個 RootDN
+	- ## 方法一 slapd.conf
+		- 這個方法適用於 slapd.conf 來做初始化 LDAP 的時候  
+		    在原本的 slapd.conf 下再新增 database  
+		  ![image.png](../assets/image_1657160621096_0.png) 
+		    
+		    新增完後再執行
+		    
+		    ```
+		    $ service slapd stop
+		    $ slaptest -f slapd.conf  -F slapd.d/
+		    $ chown -R openldap:openldap slapd.d/
+		    $ service slapd start
+		    
+		    # 測試
+		    $ ldapsearch -xb '' -s base +
+		    ```
+		    
+		    加進第二個 DIT 的時候，可以直接用 slaptest 而不用砍掉 slapd.d/ 資料夾  
+		    建立 DIT 之後，記得建立一個 RootDN
+		    
+		    ```
+		    # e.q. rootDN.ldif
+		    
+		    # iam.nchc.org.tw
+		    dn: dc=iam,dc=nchc,dc=org,dc=tw
+		    objectClass: top
+		    objectClass: dcObject
+		    objectClass: organization
+		    o: NCHC ORG.
+		    dc: iam
+		    
+		    # admin, iam.nchc.org.tw
+		    dn: cn=admin,dc=iam,dc=nchc,dc=org,dc=tw
+		    objectClass: simpleSecurityObject
+		    objectClass: organizationalRole
+		    cn: admin
+		    description: LDAP administrator
+		    userPassword:: e1NTSEF9ekN2ZnFMOG1MUzJwRTBSdExhYkxzM3lNTWpjMWxybjY=
+		    ```
+		    
+		    執行 `ldapadd -xD cn=admin,dc=xxx,dc=xxx -W -f rootDN.ldif`
+	- ## 方式二 ldif
+		- 我們也可以利用 ldif 檔來建立 database
+		    
+		    ```
+		    # mdb.ldif
+		    dn: olcDatabase=mdb,cn=config
+		    objectClass: olcDatabaseConfig
+		    objectClass: olcMdbConfig
+		    olcDatabase: mdb
+		    olcDbDirectory: /var/lib/ldap2
+		    olcSuffix: dc=example,dc=com
+		    olcRootDN: cn=admin,dc=example,dc=com
+		    olcRootPW: password
+		    olcDbIndex: objectClass eq
+		    ```
+		    
+		    執行 `ldapadd -xD cn=config -W -f mdb.ldif`  
+		    有幾點要注意
+		- `olcDbDirectory` 似乎不能跟前一個 DIT 重複
+		- 記得先改變 `olcDbDirectory` 的權限設定，  
+		    `chown openldap:openldap /var/lib/ldap`
+		  
+		      建立完後同樣要記得建立 RootDN，方法同上
+	- ## 注意事項
+		- 如果現在有 LDAP A 及 LDAP B，LDAP A 有作 replication，不知道為何 LDAP B 不會自動同步新建的 LDAP DIT，需要手動再建立一次
+		- 建立方式參考上述
+		- 建立後記得加上 syncrepl replication
+		  [Permission denied Issue](#olcdbdirectory-value-0-invalid-path-permission-denied)
+- # 設定 Log 檔的方式
+  collapsed:: true
+	- Openldap 預設會透過 rsyslog 的 local4 記錄所有的訊息
+	- **Add 30-ldap.conf in /etc/rsyslog.d**
 	  
-	      建立完後同樣要記得建立 RootDN，方法同上
-- 注意事項  
-    如果現在有 LDAP A 及 LDAP B，LDAP A 有作 replication，不知道為何 LDAP B 不會自動同步新建的 LDAP DIT，需要手動再建立一次
-	- 建立方式參考上述
-	- 建立後記得加上 syncrepl replication
+	  ```
+	  # LDAP logs
+	  local4.* -/var/log/ldap/ldap.log
 	  
-	  [Permission denied Issue](#olcdbdirectory-value-0-invalid-path-permission-denied)
-# 設定 Log 檔的方式
-
-Openldap 預設會透過 rsyslog 的 local4 記錄所有的訊息
-- **Add 30-ldap.conf in /etc/rsyslog.d**
-  
-  ```
-  # LDAP logs
-  local4.* -/var/log/ldap/ldap.log
-  
-  # Uncomment the following to stop logging anything that matches the last rule.
-  # Doing this will stop logging kernel generated UFW log messages to the file
-  # normally containing kern.* messages (eg, /var/log/kern.log)
-  & ~
-  ```
-- **Add ldap in /etc/logrotate.d/**
-  
-  ```
-  # 保留 24 個月記錄，舊記錄自動壓縮，保留上個月不壓縮
-  # 每個月或每 500M 執行一次，檔名以日期標示
-  
-  /var/log/ldap/ldap.log
-  {
-        rotate 24
-        monthly
-        size 500M
-        missingok
-        notifempty
-        compress
-        dateext
-        delaycompress
-        sharedscripts
-        postrotate
-                reload rsyslog >/dev/null 2>&1 || true
-        endscript
-  }
-  ```
-- **Restart**
-  
-  ```
-  systemctl restart rsyslog
-  reload rsyslog
-  ```
-## Log Content
-log 裡面會看到很多類似 `slapd[903]: conn=1021 op=0 BIND dn="" method=128` 的內容
-method 128 指的是用 simple 來認證，method 163 指的是用 SASL 來認證
-# Install LDAP
-
-先往上搜尋 設定 Log，設定完後再往下走
-## Ubuntu VM
-- 如果安裝環境有網路的話
-  	```
-  	$ sudo apt update 
-  	$ sudo apt upgrade -y
-  	$ sudo vim /etc/hosts
-  	# 加入 host name 在裡面
-  
-  	$ sudo apt install slapd ldap-utils -y
-  	$ sudo dpkg-reconfigure slapd
-   omit OpenLDAP server configuration? > No
-   DNS domain name > nchc.com
-   Organization name > NCHC
-   Admin Password > password
-   Comfirm Password > password
-   Database backend to use > MDB
-   Remove database when purged > No
-   Move old databases > Yes
-   Allow LDAPv2 protocol > No
-  	```
-- 如果安裝環境**沒有**網路的話
-    你可以在  [google dirver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V)  or   [gemini gitlab](https://gitlab.com/geminiopencloud/gateway/api_gateway/tree/develop/deployment/ansible) 找到離線安裝檔  
-    **安裝方式**
-    ```bash
-    # 先安裝 dependencies 資料夾裡的 *.deb 檔
-    $ dpkg -i dependencies/*.deb
-    # 再安裝 slapd & ldap-utils
-    $ dpkg -i *.deb
-    ```
-  
-  安裝好之後，你應該可以看到下列畫面  
-  ```bash
-  $ system status slapd
-  ● slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)
-   Loaded: loaded (/etc/init.d/slapd; bad; vendor preset: enabled)
-   Active: active (running) since Thu 2021-04-22 05:51:11 UTC; 29s ago
-     Docs: man:systemd-sysv-generator(8)
-  ```
-## Docker 
-使用時，請接成一行指令
-```command
- docker run -p 389:389 -p 636:636 --name myldap
- --env LDAP_DOMAIN="ai.nchc.org.tw"
- --env LDAP_CONFIG_PASSWORD="password"
- --env LDAP_TLS_VERIFY_CLIENT=try
- --hostname gemini.com 
- --env LDAP_DOMAIN="gemini.com"
- --env LDAP_ORGANISATION="Gemini" 
- --env LDAP_ADMIN_PASSWORD="password"
- --detach osixia/openldap:1.3.0
-```
-## helm
-之前寫的有關 kubnetes 安裝 ldap 的 yalm 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
-安裝的時候注意 namespace 及 service 需要 nodePort
-https://hub.kubeapps.com/charts/funkypenguin/openldap
-https://github.com/helm/charts/tree/master/stable/openldap
+	  # Uncomment the following to stop logging anything that matches the last rule.
+	  # Doing this will stop logging kernel generated UFW log messages to the file
+	  # normally containing kern.* messages (eg, /var/log/kern.log)
+	  & ~
+	  ```
+	- **Add ldap in /etc/logrotate.d/**
+	  
+	  ```
+	  # 保留 24 個月記錄，舊記錄自動壓縮，保留上個月不壓縮
+	  # 每個月或每 500M 執行一次，檔名以日期標示
+	  
+	  /var/log/ldap/ldap.log
+	  {
+	        rotate 24
+	        monthly
+	        size 500M
+	        missingok
+	        notifempty
+	        compress
+	        dateext
+	        delaycompress
+	        sharedscripts
+	        postrotate
+	                reload rsyslog >/dev/null 2>&1 || true
+	        endscript
+	  }
+	  ```
+	- **Restart**
+	  
+	  ```
+	  systemctl restart rsyslog
+	  reload rsyslog
+	  ```
+	- ## Log Content
+	  log 裡面會看到很多類似 `slapd[903]: conn=1021 op=0 BIND dn="" method=128` 的內容
+	  method 128 指的是用 simple 來認證，method 163 指的是用 SASL 來認證
+- # Install LDAP
+	- 先往上搜尋 設定 Log，設定完後再往下走
+	- ## Ubuntu VM
+	  collapsed:: true
+		- 如果安裝環境有網路的話
+		  	```
+		  	$ sudo apt update 
+		  	$ sudo apt upgrade -y
+		  	$ sudo vim /etc/hosts
+		  	# 加入 host name 在裡面
+		  
+		  	$ sudo apt install slapd ldap-utils -y
+		  	$ sudo dpkg-reconfigure slapd
+		   omit OpenLDAP server configuration? > No
+		   DNS domain name > nchc.com
+		   Organization name > NCHC
+		   Admin Password > password
+		   Comfirm Password > password
+		   Database backend to use > MDB
+		   Remove database when purged > No
+		   Move old databases > Yes
+		   Allow LDAPv2 protocol > No
+		  	```
+		- 如果安裝環境**沒有**網路的話
+		    你可以在  [google dirver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V)  or   [gemini gitlab](https://gitlab.com/geminiopencloud/gateway/api_gateway/tree/develop/deployment/ansible) 找到離線安裝檔  
+		    **安裝方式**
+		    ```bash
+		    # 先安裝 dependencies 資料夾裡的 *.deb 檔
+		    $ dpkg -i dependencies/*.deb
+		    # 再安裝 slapd & ldap-utils
+		    $ dpkg -i *.deb
+		    ```
+		  
+		  安裝好之後，你應該可以看到下列畫面  
+		  ```bash
+		  $ system status slapd
+		  ● slapd.service - LSB: OpenLDAP standalone server (Lightweight Directory Access Protocol)
+		   Loaded: loaded (/etc/init.d/slapd; bad; vendor preset: enabled)
+		   Active: active (running) since Thu 2021-04-22 05:51:11 UTC; 29s ago
+		     Docs: man:systemd-sysv-generator(8)
+		  ```
+	- ## Docker
+	  collapsed:: true
+		- 使用時，請接成一行指令
+		  ```command
+		   docker run -p 389:389 -p 636:636 --name myldap
+		   --env LDAP_DOMAIN="ai.nchc.org.tw"
+		   --env LDAP_CONFIG_PASSWORD="password"
+		   --env LDAP_TLS_VERIFY_CLIENT=try
+		   --hostname gemini.com 
+		   --env LDAP_DOMAIN="gemini.com"
+		   --env LDAP_ORGANISATION="Gemini" 
+		   --env LDAP_ADMIN_PASSWORD="password"
+		   --detach osixia/openldap:1.3.0
+		  ```
+	- ## helm
+	  collapsed:: true
+		- 之前寫的有關 kubnetes 安裝 ldap 的 yalm 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
+		  安裝的時候注意 namespace 及 service 需要 nodePort
+		  https://hub.kubeapps.com/charts/funkypenguin/openldap
+		  https://github.com/helm/charts/tree/master/stable/openldap
 # Configuration
-## 確認 Config 帳號
-- Command `$ ldapsearch -xD '' -s base +`
-    你應該可以看到類似下圖的資訊
-    ```bash
-    # extended LDIF
-    #
-    # LDAPv3
-    # base <> with scope baseObject
-    # filter: (objectclass=*)
-    # requesting: +
-    #
-    dn:
-    structuralObjectClass: OpenLDAProotDSE
-    configContext: cn=config
-    namingContexts: dc=nodomain
-    supportedControl: 2.16.840.1.113730.3.4.18
-    supportedControl: 2.16.840.1.113730.3.4.2
-    ...
-    ```
-    configContext 代表的是你 config 的 root，有關 config 的更動，基本上都會在這個 root 底下。
-- 設定 cn=config 的帳密
-    1. **Command: `$ slappasswd`**  
-        輸入你想要的密碼後記下回傳的字串![](https://i.imgur.com/7cLIngc.png)
-        
-    2. **Edit olcDatabase={0}config.ldif**  
-        視作業系統 or 安裝版本的不同，LDAP 的路徑會有些微的不同，不過一般來說都會在 `/etc/ldap` 或 `/etc/openldap` 下   
-        
-        編輯 LDAP 路徑下的檔案 `$ vim /etc/ldap/slapd.d/cn=config/olcDatabase={0}config.ldif`  
-        
-        在裡面加上剛剛回傳的密碼  
-        ![](https://i.imgur.com/OuyQQow.png)  
-    3. **Restart slapd**  
-        Command: `$ systemctl restart slapd`  
-    4. **Test**  
-        Command: `$ ldapsearch -xD cn=config -W -b cn=config`  
-  
-        `-xD` 後面接的不一定是 `cn=config`，有可能是 `cn=admin,cn=config`  
-        Kubernetes 安裝的版本應該都是 `cn=admin,cn=config`  
-        如果你的帳號是 `cn=admin,cn=config` 的話，代表你的 config 帳號就是這個，之後相關的 config 操作，你都應該使用這個帳號進行  
-        
-        成功的話，你應該會看到類似下圖的畫面  
-        ![](https://i.imgur.com/Vuhyrmv.png)
-## 其它 Config
-你可以在 [google driver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V) or [gemini gitlab](https://gitlab.com/geminiopencloud/engineering/gateway/api_gateway/-/tree/develop/deployment/ldap_template/k8s-template/ldif) 找到我預先寫好的 Config 範例檔，基本上是套用就可以，少數需要改動。
-
-Config 範例裡會有兩個資料夾 Config、Data，說明如下：
-- **Config**
-	- dit.ldif：新增 Database
-	- dbMaxSize.ldif：增加 Database 大小
-	- index.ldif：新增 index
-	- loglevel：修改 Log Level
-	- memberOf：增強 group search
-	- refint.ldif：增強 group searh
-	- replication.ldif：replication 設定
-	- security.ldif：access 設定
-- **Data**
-	- ai-data-structure.ldif： ai 的 ldap 資料結構
-	- iam-data-structure.ldif： iam 的 ldap 資料結構
-- 使用方式  
-    ```
-    $ ldapmodify -xD cn=admin,cn=config -W -f xxx.ldif
-    ```
-    ```
-    $ ldapadd -xD cn=xxx,dc=xxx,dc=xxx -W -f xxx.ldif
-    ```
-### 建立 DIT
-以 Mysql 來比喻的話，DIT 就像是 Mysql 中的 Database 一樣。
-
-```
-dn: olcDatabase=mdb,cn=config
-objectClass: olcDatabaseConfig
-objectClass: olcMdbConfig
-olcDatabase: mdb
-olcDbDirectory: /var/lib/ldap/ldpa2
-olcSuffix: dc=iam,dc=nchc,dc=org,dc=tw
-olcRootDN: cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw
-olcRootPW: password
-olcDbIndex: objectClass eq
-```
-```bash
-$ ldapadd -xD cn=config -W -f dit.ldif
-```
-
-olcRootDN 跟 olcRootPW 就是這個 DIT 底下的最高權限管理帳密  
-
-要注意的地方是 olcDbDirectory，這是 LDAP 在放 DB 的位置  
-如果你不想放在 /var/lib/ldap 底下的話，你必須額外執行一些步驟
-- Edit apparmor
-    ```bash
-    $ vim /etc/apparmor.d/usr.sbin.slapd
-    # content
-    /var/lib/ldap/ r,
-    /var/lib/ldap/** rwk,
-    # append your ldap db directory
-    /your/path/ r,
-    /your/path/** rwk,
-    
-    $ systemctl restart apparmor
-    ```
-- chown LDAP db Directory
-    ```bash
-    # 觀察一下 /var/lib/ldap 的權限及 Owner，把你的 directory 改成一樣的 Owner
-    $ chown openldap:openldap /your/path
-    ```
-  
-  建立好後，你下 `$ ldapsearch -xb '' -s base +` 應該要可以看到你建立的 DIT
-  ![7477fc87ddea23091f915aa3e557fa86.png](:/7413087aea59421aa8e7bb0a62805a6c)
-### 增加 Database 大小
-```ldif
-# dbMaxSize.ldif
-dn: olcDatabase={1}mdb,cn=config
-changetype: modify
-replace: olcDbMaxSize
-olcDbMaxSize: 10737418240
-
-dn: olcDatabase={2}mdb,cn=config
-changetype: modify
-replace: olcDbMaxSize
-olcDbMaxSize: 10737418240
-```
-```bash
-$ ldapmodify -xD cn=config -W -f dbMaxSize.ldif
-```
-這份範例更動了兩個 DIT 的 Db size，要如何確定你要更動哪個 DIT 呢？  
-到你的 LDAP 資料夾底下的這個位置 `/etc/ldap/slapd.d/cn=config`，你必須要確定你的 DIT 是第幾個 DIT，列出檔名如下  
-![8007acdb415f31a2177690a075afe9ee.png](:/15a0fb42012a45d6844d1c85f4fe8f97)
-並一一的檢視 olcDatabase={x}.mdb.ldif 中的 olcSuffix 是不是你要的 DIT 的名稱。   
-如果是，那麼 dn + `,cn=config` 就是你要更動 DIT 的 dn
-![e76ca90bf08188646bbf3f3d4312e0aa.png](:/47e93a51a6bf4c019a7586c82969d19a)
-
-olcDbMaxSize 的單位是 byte，用 1024 下去計算，所以範例是 10 GB  
-
-你可以在剛剛檢視的 olcDatabase={x}.mdb.ldif 檔案確認有沒有更改成功  
-![6f2828c7d731914d7b0d861b1f196e47.png](:/5d5c5fd623514800921bdc561970f2e4)
+	- ## 確認 Config 帳號
+		- Command `$ ldapsearch -xD '' -s base +`
+		    你應該可以看到類似下圖的資訊
+		    ```bash
+		    # extended LDIF
+		    #
+		    # LDAPv3
+		    # base <> with scope baseObject
+		    # filter: (objectclass=*)
+		    # requesting: +
+		    #
+		    dn:
+		    structuralObjectClass: OpenLDAProotDSE
+		    configContext: cn=config
+		    namingContexts: dc=nodomain
+		    supportedControl: 2.16.840.1.113730.3.4.18
+		    supportedControl: 2.16.840.1.113730.3.4.2
+		    ...
+		    ```
+		    configContext 代表的是你 config 的 root，有關 config 的更動，基本上都會在這個 root 底下。
+	- ## 設定 cn=config 的帳密
+		- 1. **Command: `$ slappasswd`**  
+		        輸入你想要的密碼後記下回傳的字串![](https://i.imgur.com/7cLIngc.png)
+		- 2. **Edit olcDatabase={0}config.ldif**  
+		        視作業系統 or 安裝版本的不同，LDAP 的路徑會有些微的不同，不過一般來說都會在 `/etc/ldap` 或 `/etc/openldap` 下   
+		        
+		        編輯 LDAP 路徑下的檔案 `$ vim /etc/ldap/slapd.d/cn=config/olcDatabase={0}config.ldif`  
+		        
+		        在裡面加上剛剛回傳的密碼  
+		        ![](https://i.imgur.com/OuyQQow.png)
+		- 3. **Restart slapd**  
+		        Command: `$ systemctl restart slapd`
+		- 4. **Test**  
+		        Command: `$ ldapsearch -xD cn=config -W -b cn=config`  
+		  
+		        `-xD` 後面接的不一定是 `cn=config`，有可能是 `cn=admin,cn=config`  
+		        Kubernetes 安裝的版本應該都是 `cn=admin,cn=config`  
+		        如果你的帳號是 `cn=admin,cn=config` 的話，代表你的 config 帳號就是這個，之後相關的 config 操作，你都應該使用這個帳號進行  
+		        
+		        成功的話，你應該會看到類似下圖的畫面  
+		        ![](https://i.imgur.com/Vuhyrmv.png)
+	- ## 其它 Config
+		- 你可以在 [google driver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V) or [gemini gitlab](https://gitlab.com/geminiopencloud/engineering/gateway/api_gateway/-/tree/develop/deployment/ldap_template/k8s-template/ldif) 找到我預先寫好的 Config 範例檔，基本上是套用就可以，少數需要改動。
+		  
+		  Config 範例裡會有兩個資料夾 Config、Data，說明如下：
+		- **Config**
+			- dit.ldif：新增 Database
+			- dbMaxSize.ldif：增加 Database 大小
+			- index.ldif：新增 index
+			- loglevel：修改 Log Level
+			- memberOf：增強 group search
+			- refint.ldif：增強 group searh
+			- replication.ldif：replication 設定
+			- security.ldif：access 設定
+		- **Data**
+			- ai-data-structure.ldif： ai 的 ldap 資料結構
+			- iam-data-structure.ldif： iam 的 ldap 資料結構
+		- **使用方式**  
+		    ```
+		    $ ldapmodify -xD cn=admin,cn=config -W -f xxx.ldif
+		    ```
+		    ```
+		    $ ldapadd -xD cn=xxx,dc=xxx,dc=xxx -W -f xxx.ldif
+		    ```
+	- ## 建立 DIT
+		- 以 Mysql 來比喻的話，DIT 就像是 Mysql 中的 Database 一樣。
+		  
+		  ```
+		  dn: olcDatabase=mdb,cn=config
+		  objectClass: olcDatabaseConfig
+		  objectClass: olcMdbConfig
+		  olcDatabase: mdb
+		  olcDbDirectory: /var/lib/ldap/ldpa2
+		  olcSuffix: dc=iam,dc=nchc,dc=org,dc=tw
+		  olcRootDN: cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw
+		  olcRootPW: password
+		  olcDbIndex: objectClass eq
+		  ```
+		  ```bash
+		  $ ldapadd -xD cn=config -W -f dit.ldif
+		  ```
+		  
+		  olcRootDN 跟 olcRootPW 就是這個 DIT 底下的最高權限管理帳密  
+		  
+		  要注意的地方是 olcDbDirectory，這是 LDAP 在放 DB 的位置  
+		  如果你不想放在 /var/lib/ldap 底下的話，你必須額外執行一些步驟
+		- **Edit apparmor**
+			- ```bash
+			    $ vim /etc/apparmor.d/usr.sbin.slapd
+			    # content
+			    /var/lib/ldap/ r,
+			    /var/lib/ldap/** rwk,
+			    # append your ldap db directory
+			    /your/path/ r,
+			    /your/path/** rwk,
+			    
+			    $ systemctl restart apparmor
+			    ```
+		- **chown LDAP db Directory**
+			- ```bash
+			    # 觀察一下 /var/lib/ldap 的權限及 Owner，把你的 directory 改成一樣的 Owner
+			    $ chown openldap:openldap /your/path
+			    ```
+		- 建立好後，你下 `$ ldapsearch -xb '' -s base +` 應該要可以看到你建立的 DIT
+		- ![image.png](../assets/image_1657161071928_0.png)
+	- ## 增加 Database 大小
+		- ```ldif
+		  # dbMaxSize.ldif
+		  dn: olcDatabase={1}mdb,cn=config
+		  changetype: modify
+		  replace: olcDbMaxSize
+		  olcDbMaxSize: 10737418240
+		  
+		  dn: olcDatabase={2}mdb,cn=config
+		  changetype: modify
+		  replace: olcDbMaxSize
+		  olcDbMaxSize: 10737418240
+		  ```
+		  ```bash
+		  $ ldapmodify -xD cn=config -W -f dbMaxSize.ldif
+		  ```
+		- 這份範例更動了兩個 DIT 的 Db size，要如何確定你要更動哪個 DIT 呢？
+		- 到你的 LDAP 資料夾底下的這個位置 `/etc/ldap/slapd.d/cn=config`，你必須要確定你的 DIT 是第幾個 DIT，列出檔名如下  
+		  ![8007acdb415f31a2177690a075afe9ee.png](:/15a0fb42012a45d6844d1c85f4fe8f97)
+		  並一一的檢視 olcDatabase={x}.mdb.ldif 中的 olcSuffix 是不是你要的 DIT 的名稱。   
+		  如果是，那麼 dn + `,cn=config` 就是你要更動 DIT 的 dn
+		  ![e76ca90bf08188646bbf3f3d4312e0aa.png](:/47e93a51a6bf4c019a7586c82969d19a)
+		  
+		  olcDbMaxSize 的單位是 byte，用 1024 下去計算，所以範例是 10 GB  
+		  
+		  你可以在剛剛檢視的 olcDatabase={x}.mdb.ldif 檔案確認有沒有更改成功  
+		  ![6f2828c7d731914d7b0d861b1f196e47.png](:/5d5c5fd623514800921bdc561970f2e4)
 ## Data Structure
 這兩個都是 For 國網設計的 LDAP 結構，看情況使用
 

@@ -2,8 +2,58 @@
 - {{renderer :tocgen}}
 -
 - # Task System Refactor
+	- 預期使用方式
+		- ```
+		  ```
 	- 新的 api payload 長相
-	- ```
+	- ```javascript
+	  [
+	    {
+	      actionType: 'GET_SECRET',
+	      clientType: 'GOC',
+	      polling: true,
+	      // constroller: "common", // optional, default
+	      // function: "callApi", // optional, default
+	      auth: { username, projectName },
+	      api: { type: 'secret', name: 'GET_SECRET' },
+	      params: {
+	        currentPlatform,
+	        project,
+	        name,
+	        type,
+	        desc,
+	      },
+	    },
+	    {
+	      actionType: 'GET_USER_INFO',
+	      clientType: 'GOC',
+	      polling: false,
+	      controller: 'userController',
+	      function: 'getUserInfo',
+	      auth: { username, projectName },
+	      params: {
+	      }
+	    },
+	    [
+	      {
+	        clientType: 'GOC',
+	        apiType: 'GET_SECRET',
+	        api: {
+	          url: `/api/v3/${currentPlatform}/secrets/`,
+	          method: 'post',
+	          header: { 'x-api-key': apiKey },
+	          auth: { username },
+	          data: {
+	            project: platforms?.[currentPlatform]?.paasProjId,
+	            name: formData.secretName,
+	            type: formData.secretType,
+	            desc: formData.desc,
+	            data,
+	          },
+	        },
+	      },
+	    ],
+	  ]
 	  ```
 - # Enviroment
   collapsed:: true

@@ -256,6 +256,7 @@
 	  log 裡面會看到很多類似 `slapd[903]: conn=1021 op=0 BIND dn="" method=128` 的內容
 	  method 128 指的是用 simple 來認證，method 163 指的是用 SASL 來認證
 - # Install LDAP
+  collapsed:: true
 	- 先往上搜尋 設定 Log，設定完後再往下走
 	- ## Ubuntu VM
 	  collapsed:: true
@@ -317,6 +318,7 @@
 		  https://hub.kubeapps.com/charts/funkypenguin/openldap
 		  https://github.com/helm/charts/tree/master/stable/openldap
 # Configuration
+collapsed:: true
 	- ## 確認 Config 帳號
 		- Command `$ ldapsearch -xD '' -s base +`
 		    你應該可以看到類似下圖的資訊
@@ -439,194 +441,174 @@
 		  $ ldapmodify -xD cn=config -W -f dbMaxSize.ldif
 		  ```
 		- 這份範例更動了兩個 DIT 的 Db size，要如何確定你要更動哪個 DIT 呢？
-		- 到你的 LDAP 資料夾底下的這個位置 `/etc/ldap/slapd.d/cn=config`，你必須要確定你的 DIT 是第幾個 DIT，列出檔名如下  
-		  ![8007acdb415f31a2177690a075afe9ee.png](:/15a0fb42012a45d6844d1c85f4fe8f97)
-		  並一一的檢視 olcDatabase={x}.mdb.ldif 中的 olcSuffix 是不是你要的 DIT 的名稱。   
+		- 到你的 LDAP 資料夾底下的這個位置 `/etc/ldap/slapd.d/cn=config`，你必須要確定你的 DIT 是第幾個 DIT，列出檔名如下
+		- ![image.png](../assets/image_1657161114877_0.png)
+		- 並一一的檢視 olcDatabase={x}.mdb.ldif 中的 olcSuffix 是不是你要的 DIT 的名稱。   
 		  如果是，那麼 dn + `,cn=config` 就是你要更動 DIT 的 dn
-		  ![e76ca90bf08188646bbf3f3d4312e0aa.png](:/47e93a51a6bf4c019a7586c82969d19a)
+		- ![image.png](../assets/image_1657161137048_0.png)
+		- olcDbMaxSize 的單位是 byte，用 1024 下去計算，所以範例是 10 GB
+		- 你可以在剛剛檢視的 olcDatabase={x}.mdb.ldif 檔案確認有沒有更改成功
+		- ![image.png](../assets/image_1657161153983_0.png)
+	- ## Data Structure
+		- 這兩個都是 For 國網設計的 LDAP 結構，看情況使用
 		  
-		  olcDbMaxSize 的單位是 byte，用 1024 下去計算，所以範例是 10 GB  
-		  
-		  你可以在剛剛檢視的 olcDatabase={x}.mdb.ldif 檔案確認有沒有更改成功  
-		  ![6f2828c7d731914d7b0d861b1f196e47.png](:/5d5c5fd623514800921bdc561970f2e4)
-## Data Structure
-這兩個都是 For 國網設計的 LDAP 結構，看情況使用
-
-如果要建的話，你應該使用該 DIT 底下的最高權限者建立
-For example:
-```bash
-$ ldapadd -xD cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw -W -f iam-data-structure.ldif
-```
+		  如果要建的話，你應該使用該 DIT 底下的最高權限者建立
+		  For example:
+		  ```bash
+		  $ ldapadd -xD cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw -W -f iam-data-structure.ldif
+		  ```
 # Replication
-## 同步設定  
-  同步的設定在 olcSyncrepl，如果是沒有設定過的，這項應該會是空白找不到  
-  我們一般來說都會用模版來設定，文件後會附完整模版，copy 後存成 .ldif 檔並執行
-- 設定 Server ID
-  ```yaml
-  dn: cn=config
-  changetype: modify
-  replace: olcServerID
-  olcServerID: 1 ldap://[host name or host IP]
-  olcServerID: 2 ldap://[host name or host IP]
-  ```
-- 開啟同步模組  
-    `olcDatabase` 這裡要填剛剛 cn=config 找到的 dn
-  	```ldif
-  	# Add Syncprov on backend
-  	dn: cn=module{0},cn=config
-  	changetype: modify
-  	add: olcModuleLoad
-  	olcModuleLoad: syncprov
-  
-  	dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
-  	changetype: add
-  	objectClass: olcOverlayConfig
-  	objectClass: olcSyncProvConfig
-  	olcOverlay: syncprov
-  	```
-  
-  執行：  
-  `ldapmodify -xD [cn=admin,]cn=config -W -f module.ldif`
-  
-  3.2. 設定 config 同步  
-  這個是用來設定兩個 ldap host 之間的 config 同步
-  
-  ```ldif
-  dn: olcDatabase={0}config,cn=config
-  changetype: modify
-  replace: olcSyncRepl
-  olcSyncRepl: rid=003 provider=ldap://ldap-0-service binddn="cn=admin,cn=config" bindmethod=simple
-  credentials="password" searchbase="cn=config" type=refreshAndPersist
-  retry="10 5 60 +" timeout=1
-  olcSyncRepl: rid=004 provider=ldap://ldap-1-service binddn="cn=admin,cn=config" bindmethod=simple
-  credentials="password" searchbase="cn=config" type=refreshAndPersist
-  retry="10 5 60 +" timeout=1
-  
-  ```
-  
-  3.3. 設定 olcSyncRepl  
-  注意 `provider`，這裡如果是 vm 的話，一般來說都是 hostname  
-  確認的方法就是拿這個下去做 ldapsearch，打的通就可以用  
-  `ldapsearch -xD cn=config, -W -b cn=config -H ldap://ldap-0-service:389`
-  
-  這裡設定了三個 olcSyncRepl，一個用來跟國網做同步，另外兩個是 host 之間的同步  
-  第一個 rid=001，就是跟國網的同步，基本上不用做更動  
-  第二個 rid=005 (rid 可變更，需要是唯一的數字)，binddn 要用 admin 的帳號，credentials 填密碼，searchbase 填要同步的 path  
-  第三個以第二個類推
-  
-  ```ldif
-  dn: olcDatabase={1}mdb,cn=config
-  changetype: modify
-  replace: olcSyncRepl
-  olcSyncRepl: rid=001 provider=ldap://140.110.8.170 binddn="cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="1qaz2wsx3edc" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshOnly 
-  interval=00:00:01:00 retry="10 5 60 +"
-  olcSyncRepl: rid=005 provider=ldap://ldap-0-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  olcSyncRepl: rid=006 provider=ldap://ldap-1-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  -
-  add: olcMirrorMode
-  olcMirrorMode: TRUE
-  ```
-  
-  注意！olcMirrorMode 很重要，如果後面有 `Shadow context; no update referral` 的錯誤，多半都是這個屬性所引起的  
-  在 slapd.conf 的階段注意千萬不要設定 mirrormode on，會導致上述錯誤發生，幾乎無解。
-  
-  4.  執行  
-    把上述內容存成 .ldif 檔並執行  
-    `ldapmodify -xD cn=config -W -f xxx.ldif`
-  
-  如果出現這樣的錯誤，加入 olcMirrorMode 之後再試一次
-  
-  ```
-  ldap_modify: Server is unwilling to perform (53)
-    additional info: shadow context; no update referral
-  ```
-  
-  5.  檢查  
-    檢查 cn=config 的設定有沒有出來，可以做 ldapsearch 來看國網的 user 有沒有同步過來
-  
-  * * *
-  
-  **replication.ldif**
-  
-  ```ldif
-  dn: olcDatabase={0}config,cn=config
-  changetype: modify
-  replace: olcSyncRepl
-  olcSyncRepl: rid=003 provider=ldap://ldap-0-service binddn="cn=admin,cn=config" bindmethod=simple
-  credentials="password" searchbase="cn=config" type=refreshAndPersist
-  retry="10 5 60 +" timeout=1
-  olcSyncRepl: rid=004 provider=ldap://ldap-1-service binddn="cn=admin,cn=config" bindmethod=simple
-  credentials="password" searchbase="cn=config" type=refreshAndPersist
-  retry="10 5 60 +" timeout=1
-  
-  # Add Syncprov on backend
-  dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
-  changetype: add
-  objectClass: olcOverlayConfig
-  objectClass: olcSyncProvConfig
-  olcOverlay: syncprov
-  
-  dn: olcDatabase={1}mdb,cn=config
-  changetype: modify
-  replace: olcSyncRepl
-  olcSyncRepl: rid=001 provider=ldap://140.110.8.170 binddn="cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="1qaz2wsx3edc" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshOnly 
-  interval=00:00:01:00 retry="10 5 60 +"
-  olcSyncRepl: rid=005 provider=ldap://ldap-0-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  olcSyncRepl: rid=006 provider=ldap://ldap-1-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  -
-  add: olcMirrorMode
-  olcMirrorMode: TRUE
-  
-  # Add Syncprov on backend
-  dn: olcOverlay=syncprov,olcDatabase={2}mdb,cn=config
-  changetype: add
-  objectClass: olcOverlayConfig
-  objectClass: olcSyncProvConfig
-  olcOverlay: syncprov
-  
-  # Add sync replication on backend
-  dn: olcDatabase={2}mdb,cn=config
-  changetype: modify
-  add: olcSyncRepl
-  olcSyncRepl: rid=007 provider=ldap://ldap-0-service binddn="cn=ai-admin,dc=ai,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=ai,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  olcSyncRepl: rid=008 provider=ldap://ldap-1-service binddn="cn=ai-admin,dc=ai,dc=nchc,dc=org,dc=tw" bindmethod=simple
-  credentials="password" searchbase="dc=ai,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
-  retry="10 5 60 +"
-  -
-  add: olcMirrorMode
-  olcMirrorMode: TRUE
-  ```
+	- ## 同步設定
+		- 同步的設定在 olcSyncrepl，如果是沒有設定過的，這項應該會是空白找不到  
+		    我們一般來說都會用模版來設定，文件後會附完整模版，copy 後存成 .ldif 檔並執行
+	- ## 設定 Server ID
+		- ```yaml
+		  dn: cn=config
+		  changetype: modify
+		  replace: olcServerID
+		  olcServerID: 1 ldap://[host name or host IP]
+		  olcServerID: 2 ldap://[host name or host IP]
+		  ```
+	- ## 開啟同步模組
+		- `olcDatabase` 這裡要填剛剛 cn=config 找到的 dn
+		  ```ldif
+		  	# Add Syncprov on backend
+		  	dn: cn=module{0},cn=config
+		  	changetype: modify
+		  	add: olcModuleLoad
+		  	olcModuleLoad: syncprov
+		  
+		  	dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+		  	changetype: add
+		  	objectClass: olcOverlayConfig
+		  	objectClass: olcSyncProvConfig
+		  	olcOverlay: syncprov
+		  	```
+		- 執行：  `ldapmodify -xD [cn=admin,]cn=config -W -f module.ldif`
+	- ## 設定 config 同步
+		- 這個是用來設定兩個 ldap host 之間的 config 同步
+		  
+		  ```ldif
+		  dn: olcDatabase={0}config,cn=config
+		  changetype: modify
+		  replace: olcSyncRepl
+		  olcSyncRepl: rid=003 provider=ldap://ldap-0-service binddn="cn=admin,cn=config" bindmethod=simple
+		  credentials="password" searchbase="cn=config" type=refreshAndPersist
+		  retry="10 5 60 +" timeout=1
+		  olcSyncRepl: rid=004 provider=ldap://ldap-1-service binddn="cn=admin,cn=config" bindmethod=simple
+		  credentials="password" searchbase="cn=config" type=refreshAndPersist
+		  retry="10 5 60 +" timeout=1
+		  ```
+	- ## 設定 olcSyncRepl
+		- 注意 `provider`，這裡如果是 vm 的話，一般來說都是 hostname
+		- 確認的方法就是拿這個下去做 ldapsearch，打的通就可以用  
+		  `ldapsearch -xD cn=config, -W -b cn=config -H ldap://ldap-0-service:389`
+		- 這裡設定了三個 olcSyncRepl，一個用來跟國網做同步，另外兩個是 host 之間的同步
+		- 第一個 rid=001，就是跟國網的同步，基本上不用做更動
+		- 第二個 rid=005 (rid 可變更，需要是唯一的數字)，binddn 要用 admin 的帳號，credentials 填密碼，searchbase 填要同步的 path
+		- 第三個以第二個類推
+		- ```ldif
+		  dn: olcDatabase={1}mdb,cn=config
+		  changetype: modify
+		  replace: olcSyncRepl
+		  olcSyncRepl: rid=001 provider=ldap://140.110.8.170 binddn="cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="1qaz2wsx3edc" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshOnly 
+		  interval=00:00:01:00 retry="10 5 60 +"
+		  olcSyncRepl: rid=005 provider=ldap://ldap-0-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  olcSyncRepl: rid=006 provider=ldap://ldap-1-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  -
+		  add: olcMirrorMode
+		  olcMirrorMode: TRUE
+		  ```
+		- 注意！olcMirrorMode 很重要，如果後面有 `Shadow context; no update referral` 的錯誤，多半都是這個屬性所引起的  
+		  在 slapd.conf 的階段注意千萬不要設定 mirrormode on，會導致上述錯誤發生，幾乎無解。
+	- ## 執行
+		- 把上述內容存成 .ldif 檔並執行  `ldapmodify -xD cn=config -W -f xxx.ldif`
+		- 如果出現這樣的錯誤，加入 olcMirrorMode 之後再試一次
+		  ```
+		  ldap_modify: Server is unwilling to perform (53)
+		    additional info: shadow context; no update referral
+		  ```
+	- ## 檢查
+		- 檢查 cn=config 的設定有沒有出來，可以做 ldapsearch 來看國網的 user 有沒有同步過來
+	- ## 檔案對照
+		- **replication.ldif**
+		  
+		  ```ldif
+		  dn: olcDatabase={0}config,cn=config
+		  changetype: modify
+		  replace: olcSyncRepl
+		  olcSyncRepl: rid=003 provider=ldap://ldap-0-service binddn="cn=admin,cn=config" bindmethod=simple
+		  credentials="password" searchbase="cn=config" type=refreshAndPersist
+		  retry="10 5 60 +" timeout=1
+		  olcSyncRepl: rid=004 provider=ldap://ldap-1-service binddn="cn=admin,cn=config" bindmethod=simple
+		  credentials="password" searchbase="cn=config" type=refreshAndPersist
+		  retry="10 5 60 +" timeout=1
+		  
+		  # Add Syncprov on backend
+		  dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+		  changetype: add
+		  objectClass: olcOverlayConfig
+		  objectClass: olcSyncProvConfig
+		  olcOverlay: syncprov
+		  
+		  dn: olcDatabase={1}mdb,cn=config
+		  changetype: modify
+		  replace: olcSyncRepl
+		  olcSyncRepl: rid=001 provider=ldap://140.110.8.170 binddn="cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="1qaz2wsx3edc" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshOnly 
+		  interval=00:00:01:00 retry="10 5 60 +"
+		  olcSyncRepl: rid=005 provider=ldap://ldap-0-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  olcSyncRepl: rid=006 provider=ldap://ldap-1-service binddn="cn=admin,dc=iam,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=iam,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  -
+		  add: olcMirrorMode
+		  olcMirrorMode: TRUE
+		  
+		  # Add Syncprov on backend
+		  dn: olcOverlay=syncprov,olcDatabase={2}mdb,cn=config
+		  changetype: add
+		  objectClass: olcOverlayConfig
+		  objectClass: olcSyncProvConfig
+		  olcOverlay: syncprov
+		  
+		  # Add sync replication on backend
+		  dn: olcDatabase={2}mdb,cn=config
+		  changetype: modify
+		  add: olcSyncRepl
+		  olcSyncRepl: rid=007 provider=ldap://ldap-0-service binddn="cn=ai-admin,dc=ai,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=ai,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  olcSyncRepl: rid=008 provider=ldap://ldap-1-service binddn="cn=ai-admin,dc=ai,dc=nchc,dc=org,dc=tw" bindmethod=simple
+		  credentials="password" searchbase="dc=ai,dc=nchc,dc=org,dc=tw" type=refreshAndPersist
+		  retry="10 5 60 +"
+		  -
+		  add: olcMirrorMode
+		  olcMirrorMode: TRUE
+		  ```
 # Trouble Shooting
-## olcDbDirectory: value #0: invalid path: Permission denied
-
-在加入第二個 DIT 的時候出現這個錯誤，看到這個錯誤需注意
-
-1.  olcDbDirectory 的路徑是不是有改權限？  
-  `chown openldap:openldap /your/path`
-2.  olcDbDirectory 的所在資料夾是不是需要 root 權限？
-  ```bash
-  $ vim /etc/apparmor.d/usr.sbin.slapd
-  # content
-  /var/lib/ldap/ r,
-  /var/lib/ldap/** rwk,
-  # append
-  /your/path/ r,
-  /your/path/** rwk,
-  
-  $ systemctl restart apparmor
-  ```
-	之後再 `ldapadd -xD cn=config -W -f dit.ldif` 即可
+	- ## olcDbDirectory: value \#0: invalid path: Permission denied
+		- 在加入第二個 DIT 的時候出現這個錯誤，看到這個錯誤需注意
+		- 1.  olcDbDirectory 的路徑是不是有改權限？  `chown openldap:openldap /your/path`
+		- 2.  olcDbDirectory 的所在資料夾是不是需要 root 權限？
+		    ```bash
+		    $ vim /etc/apparmor.d/usr.sbin.slapd
+		    # content
+		    /var/lib/ldap/ r,
+		    /var/lib/ldap/** rwk,
+		    # append
+		    /your/path/ r,
+		    /your/path/** rwk,
+		    
+		    $ systemctl restart apparmor
+		    ```
+		  	之後再 `ldapadd -xD cn=config -W -f dit.ldif` 即可
 -
 - # [[國網 LDAP 記錄]]

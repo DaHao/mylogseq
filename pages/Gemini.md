@@ -108,6 +108,13 @@ gemini/password
 			  172.16.0.202
 - # ITRI-matlab
 	- https://gitlab.com/geminiopencloud/engineering/portal/matlab-report/-/issues/1
+-
+- # File Server
+	- 打開 mac 裡面的 finder，快捷鍵 `cmd + k` 或是 `前往 > 連接伺服器`
+	- 輸入 `afp://172.16.200.50`，並按下連線
+	- 卷宗選擇 Gemini_fileserver，xportal release 的位置為 XPORTAL 資料夾
+-
+- # [[Paas]]
 - # 版號流程
 	- https://gitlab.com/geminiopencloud/product-management2/2.-requirements/ai-console-2021-requirements/-/issues/104
 	-

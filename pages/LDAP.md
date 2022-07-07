@@ -140,6 +140,7 @@
 		  # 用 replication 同步過來的 Entry，建立時間還是原本的時間，不是同步的時間，因此要看 modifytimestamp
 		  ```
 - # 新增 DIT
+  collapsed:: true
 	- OpenLDAP 支援建立多個 RootDN
 	- ## 方法一 slapd.conf
 		- 這個方法適用於 slapd.conf 來做初始化 LDAP 的時候  

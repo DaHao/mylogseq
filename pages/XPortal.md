@@ -34,7 +34,7 @@
 	      // function: "callApi", // optional, default
 	      auth: { username, projectName },
 	      template: { type: 'secret', name: 'GET_SECRET' },
-	      params: {
+	      api: {
 	        currentPlatform,
 	        project,
 	        name,

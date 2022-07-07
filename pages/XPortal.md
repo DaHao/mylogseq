@@ -3,7 +3,14 @@
 -
 - # Task System Refactor
 	- 預期使用方式
-		- ```
+		- ```javascript
+		  const controller = "commonController";
+		  const functionName = "callApi";
+		  
+		  const apiParams = api ? apiCollection[api.type][api.name] : params;
+		  self[controller][functionName](apiParams)
+		  
+		  
 		  ```
 	- 新的 api payload 長相
 	- ```javascript

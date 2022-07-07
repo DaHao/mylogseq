@@ -16,6 +16,15 @@
 	- ```javascript
 	  [
 	    {
+	      clientType: 'GOC',
+	      api: {
+	        url: `/api/v3/${currentPlatform}/secrets/`,
+	        method: 'get',
+	        header: { 'x-api-key': apiKey },
+	        auth: { username },
+	      },
+	    },
+	    {
 	      actionType: 'GET_SECRET',
 	      clientType: 'GOC',
 	      polling: true,
@@ -24,7 +33,7 @@
 	      // controller: "common", // optional, default
 	      // function: "callApi", // optional, default
 	      auth: { username, projectName },
-	      api: { type: 'secret', name: 'GET_SECRET' },
+	      template: { type: 'secret', name: 'GET_SECRET' },
 	      params: {
 	        currentPlatform,
 	        project,
@@ -32,16 +41,6 @@
 	        type,
 	        desc,
 	      },
-	    },
-	    {
-	      actionType: 'GET_USER_INFO',
-	      clientType: 'GOC',
-	      polling: false,
-	      controller: 'userController',
-	      function: 'getUserInfo',
-	      auth: { username, projectName },
-	      params: {
-	      }
 	    },
 	    [
 	      {

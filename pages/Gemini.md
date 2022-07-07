@@ -2,6 +2,9 @@
 - # Description
 	- 這個網址可以讓你看到有啟用 script 的 PP 
 	  http://jarvis.gemini.local:31964/
+- # VPN
+	- fortiClient
+	- hao.chen
 # k8s-pool
 10.15.99.1~3
 gemini/password

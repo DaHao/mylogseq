@@ -13,13 +13,15 @@
 		  
 		  ```
 	- 新的 api payload 長相
-	- [
+	- ```javascript
+	  [
 	    {
 	      actionType: 'GET_SECRET',
 	      clientType: 'GOC',
 	      polling: true,
 	      bundle: true,  // 要整包丟回來
-	      // constroller: "common", // optional, default
+	      retry: { times: 5, interval: 200 }, // 失敗的話重試
+	      // controller: "common", // optional, default
 	      // function: "callApi", // optional, default
 	      auth: { username, projectName },
 	      api: { type: 'secret', name: 'GET_SECRET' },
@@ -61,6 +63,7 @@
 	      },
 	    ],
 	  ]
+	  ```
 - # Enviroment
   collapsed:: true
 	- ## CI drone

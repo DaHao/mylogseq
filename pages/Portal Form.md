@@ -1,6 +1,5 @@
 - {{renderer :tocgen}}
 - Elastic form 接受特定格式的 Spec 來渲染出 Form 表單，Spec 的格式以下說明
-  title:: Portal Form
 - # Properties
 	- ## cancelOption
 	  設定 取消按鈕 的樣式

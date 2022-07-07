@@ -4,7 +4,7 @@
 	  http://jarvis.gemini.local:31964/
 - # VPN
 	- fortiClient
-	- hao.chen
+	- hao.chen / 0912411278
 # k8s-pool
 10.15.99.1~3
 gemini/password

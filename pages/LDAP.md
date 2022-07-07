@@ -209,7 +209,7 @@
 		- 如果現在有 LDAP A 及 LDAP B，LDAP A 有作 replication，不知道為何 LDAP B 不會自動同步新建的 LDAP DIT，需要手動再建立一次
 		- 建立方式參考上述
 		- 建立後記得加上 syncrepl replication
-		  [Permission denied Issue](#olcdbdirectory-value-0-invalid-path-permission-denied)
+		  ((2634bde0-f6e2-406c-aa30-dbf34a3df7d1))
 - # 設定 Log 檔的方式
   collapsed:: true
 	- Openldap 預設會透過 rsyslog 的 local4 記錄所有的訊息
@@ -255,11 +255,9 @@
 	- ## Log Content
 	  log 裡面會看到很多類似 `slapd[903]: conn=1021 op=0 BIND dn="" method=128` 的內容
 	  method 128 指的是用 simple 來認證，method 163 指的是用 SASL 來認證
-- # Install LDAP
-  collapsed:: true
+- # Install
 	- 先往上搜尋 設定 Log，設定完後再往下走
 	- ## Ubuntu VM
-	  collapsed:: true
 		- 如果安裝環境有網路的話
 		  	```
 		  	$ sudo apt update 
@@ -280,7 +278,7 @@
 		   Allow LDAPv2 protocol > No
 		  	```
 		- 如果安裝環境**沒有**網路的話
-		    你可以在  [google dirver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V)  or   [gemini gitlab](https://gitlab.com/geminiopencloud/gateway/api_gateway/tree/develop/deployment/ansible) 找到離線安裝檔  
+		    你可以在  [google dirver](https://drive.google.com/drive/folders/16RXFNfF5fSPuc67UvyPLM9Aszht-0i_V)  or   [gemini gitlab](https://gitlab.com/geminiopencloud/engineering/gateway/api_gateway/-/tree/develop/deployment/ansible) 找到離線安裝檔  
 		    **安裝方式**
 		    ```bash
 		    # 先安裝 dependencies 資料夾裡的 *.deb 檔
@@ -297,6 +295,7 @@
 		   Active: active (running) since Thu 2021-04-22 05:51:11 UTC; 29s ago
 		     Docs: man:systemd-sysv-generator(8)
 		  ```
+		-
 	- ## Docker
 	  collapsed:: true
 		- 使用時，請接成一行指令
@@ -458,6 +457,7 @@ collapsed:: true
 		  $ ldapadd -xD cn=ai-admin,dc=iam,dc=nchc,dc=org,dc=tw -W -f iam-data-structure.ldif
 		  ```
 # Replication
+collapsed:: true
 	- ## 同步設定
 		- 同步的設定在 olcSyncrepl，如果是沒有設定過的，這項應該會是空白找不到  
 		    我們一般來說都會用模版來設定，文件後會附完整模版，copy 後存成 .ldif 檔並執行
@@ -595,6 +595,7 @@ collapsed:: true
 		  ```
 # Trouble Shooting
 	- ## olcDbDirectory: value \#0: invalid path: Permission denied
+	  id:: 2634bde0-f6e2-406c-aa30-dbf34a3df7d1
 		- 在加入第二個 DIT 的時候出現這個錯誤，看到這個錯誤需注意
 		- 1.  olcDbDirectory 的路徑是不是有改權限？  `chown openldap:openldap /your/path`
 		- 2.  olcDbDirectory 的所在資料夾是不是需要 root 權限？
@@ -609,6 +610,168 @@ collapsed:: true
 		    
 		    $ systemctl restart apparmor
 		    ```
-		  	之後再 `ldapadd -xD cn=config -W -f dit.ldif` 即可
+		- 之後再 `ldapadd -xD cn=config -W -f dit.ldif` 即可
 -
 - # [[國網 LDAP 記錄]]
+- # 設定 TLS LDAP Certificate
+  collapsed:: true
+	- 用這個 docker 來進行設定 [docker-openldap](https://github.com/osixia/docker-openldap)
+	- 這個指令在 container 內部有用，但是在 container 外面就會連不到。
+	  -d 可以列出詳細的訊息，方便 debug
+	  ```
+	  ldapsearch -xD cn=admin,dc=ai,dc=nchc,dc=org,dc=tw \
+	  -w password -b dc=ai,dc=nchc,dc=org,dc=tw \
+	  -H ldaps://localhost:636 -d 1
+	  ```
+	- 錯誤訊息如下：
+	  ```
+	  TLS: during handshake: peer cert is valid, or was ignored if verification disabled (-9841)
+	  TLS: during handshake: Peer certificate is not trusted: kSecTrustResultRecoverableTrustFailure
+	  tlsst_session_upflags(0x7fb7a7c040a0)
+	  tlsst_session_errmsg(0x7fb7a7c040a0)
+	  TLS: can't connect: SSLHandshake() failed: misc. bad certificate (-9825).
+	  ```
+	  感覺是憑證不受信任的問題。
+	- 從 container 內部 call 憑證出來
+	  container 內部 ca 的憑證位置在：`/container/service/:ssl-tools/assets/default-ca/`
+	  會發現是因為 ldap 的 ca.crt link
+	  把三個檔案都 call 出來，但是用 UI 匯不進去 mac 裡
+	- 找到了一個網頁教人怎麼用 openssl 匯入
+	  [如何使用 OpenSSL 建立開發測試用途的自簽憑證 (Self-Signed Certificate)](https://blog.miniasp.com/post/2019/02/25/Creating-Self-signed-Certificate-using-OpenSSL)
+	- 下指令
+		- `sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain default-ca.pem`
+		- 因為是憑證，所以我猜應該是 default-ca.pem 而不是 default-ca-key.pem
+	- 下完後重新在 container 之外執行 ldapsearch，錯誤訊息改變了
+	  ```
+	  TLS: during handshake: peer cert is valid, or was ignored if verification disabled (-9841)
+	  TLS: during handshake: Peer certificate is trusted
+	  tlsst_socket_write(0x7fda4ce0b608, 12)
+	  tlsst_socket_write(0x7fda4ce14328, 75)
+	  tlsst_socket_write(0x7fda4ce0bdd8, 6)
+	  tlsst_socket_write(0x7fda4ce0b6f8, 45)
+	  tlsst_socket_read(0x7fda4d00ea00, 5)
+	  TLS: during handshake: connection closed via error (-9806)
+	  ```
+	  憑證好像被信任了，但是還是讀不到。
+	- 後來看到有人有類似的問題
+	  [TLS: can't accept: No certificate was found](https://github.com/osixia/docker-openldap/issues/105)
+	- 簡單的來說呢，啟動的指令變成
+	  ```
+	  docker run -p 389:389 -p 636:636 \
+	  --name myldap 
+	  --hostname gemini.com 
+	  --env LDAP_DOMAIN="ai.nchc.org.tw" 
+	  --env LDAP_CONFIG_PASSWORD="password" 
+	  --env LDAP_TLS_VERIFY_CLIENT=try 
+	  --env LDAP_ORGANISATION="Gemini" 
+	  --env LDAP_ADMIN_PASSWORD="password" 
+	  --detach osixia/openldap:1.3.0
+	  ```
+	  加上 hostname 及 env
+	- 然後就可以用 hostname 來存取 ldaps 服務
+	  ```
+	  ldapsearch -xD cn=admin,dc=ai,dc=nchc,dc=org,dc=tw -wpassword -b dc=ai,dc=nchc,dc=org,dc=tw -H ldaps://gemini.com:636
+	  ```
+	- LDAP_TLS_VERIFY_CLIENT，這個方法並不是很好，關掉了 client 端的驗證。
+	  後來發現不用加這個也可以 work
+- # 封存記錄
+  collapsed:: true
+	- 這裡的寫法已經有點過時了，現在的 ldap 並不建議使用 slapd.conf 的做法
+	  ```bash
+	  $ sudo su
+	  $ slappasswd
+	  # 輸入密碼後並記下來，後面會用到
+	  {SSHA}oL8dVa94g4jkpErhbsXMa9gwVfJoxTp9
+	  
+	  $ service slapd stop
+	  $ cp /usr/share/slapd/slapd.conf /etc/ldap/
+	  $ vim /etc/ldap/slapd.conf
+	  # 以下只記錄修改的部份
+	  - loglevel        none
+	  + loglevel        16640
+	  
+	  - moduleload      back_@BACKEND@
+	  + moduleload      back_mdb.la
+	  + moduleload      syncprov.la
+	  
+	  - sizelimit	      500
+	  + sizelimit	      unlimited
+	  
+	  - backend         @BACKEND@
+	  + backend         mdb
+	  
+	  - database        @BACKEND@
+	  + database        mdb
+	  
+	  - suffix          "@SUFFIX@"
+	  + suffix          "dc=iam,dc=nchc,dc=org,dc=tw"
+	  
+	  + rootdn          "cn=admin,dc=nchc,dc=com"
+	  + rootpw          {SSHA}oL8dVa94g4jkpErhbsXMa9gwVfJoxTp9
+	  ^ 輸入剛剛 slappasswd 的密碼
+	  
+	  - dbconfig set_cachesize 0 2097152 0
+	  + # dbconfig set_cachesize 0 2097152 0
+	  
+	  - dbconfig set_lk_max_objects 1500
+	  + # dbconfig set_lk_max_objects 1500
+	  
+	  - dbconfig set_lk_max_locks 1500
+	  + # dbconfig set_lk_max_locks 1500
+	  
+	  - dbconfig set_lk_max_lockers 1500
+	  + # dbconfig set_lk_max_lockers 1500
+	  
+	  + index      objectClass,entryCSN,entryUUID eq
+	  
+	  - access to attrs=userPassword,shadowLastChange
+	          by dn="@ADMIN@" write
+	          by anonymous auth
+	          by self write
+	          by * none
+	  + access to attrs=userPassword,shadowLastChange
+	          by dn="cn=admin,dc=nchc,dc=com" write
+	          by anonymous auth
+	          by self write
+	          by * none
+	  
+	  - access to *
+	          by dn="@ADMIN@" write
+	          by * read
+	  + access to *
+	          by dn="cn=admin,dc=nchc,dc=com" write
+	          by * read
+	  
+	  + index entryCSN,entryUUID eq
+	  
+	  + overlay syncprov
+	  + syncprov-checkpoint 100 10
+	  + syncprov-sessionlog 100
+	  + serverID      1
+	  ## 以下因為使用 multi-replication，所以暫時觀察不用
+	  ## + syncrepl      rid=123
+	  ##                 provider=ldap://10.113.1.5
+	  ##                 bindmethod=simple
+	  ##                 binddn="cn=admin,dc=nchc,dc=com"
+	  ##                 credentials=password
+	  ##                 searchbase="dc=nchc,dc=com"
+	  ##                 schemachecking=off
+	  ##                 type=refreshAndPersist
+	  ##                 retry="60  +"
+	  ## + mirrormode on
+	  
+	  $ rm -rf /etc/ldap/slapd.d/*
+	  $ slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d/
+	  # 會出現 rootdn is always granted unlimited privileges. 的警告，無須理會
+	  # 有 config file testing succeeded 即是成功，並確認 slapd.d 裡面有生成資料即可。
+	  $ chown -R openldap:openldap /etc/ldap/*
+	  $ service slapd start
+	  
+	  # 以上是 node1 的設定，node2 的設定基本上相同，只是有幾個地方要修改。
+	  # slapd.conf 的設定改成
+	  serverID     2
+	  provider=ldap://10.113.1.18
+	  
+	  # 在此說明一下，serverID必須是唯一，provider則是設成另一個 node 的IP，provider指的是要去哪裡同步資料。
+	  ```
+	  **以上的作法 LDAP 並不建議使用**

@@ -1,7 +1,12 @@
 - #Gemini
 - {{renderer :tocgen}}
 -
+- # Task System Refactor
+	- 新的 api payload 長相
+	- ```
+	  ```
 - # Enviroment
+  collapsed:: true
 	- ## CI drone
 		- **server**
 			- gemini@172.16.250.20 / password
@@ -46,6 +51,7 @@
 			- 至此水落石出，container 中的檔案複製到 /XPORTAL_Release 就等同複製到 drone server 上的 /mnt/XPORTAL/，就等同複製到 fileserver 上的 /XPORTAL
 	-
 - # Migrations
+  collapsed:: true
 	- ##  produce migrations
 	  1. 在 backend 目錄下執行
 	  	`$ node_modules/db-migrate/bin/db-migrate create mariadb-migration --sql-file`

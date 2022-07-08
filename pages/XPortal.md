@@ -25,13 +25,11 @@
 	      },
 	      controller: 'secretController', // optional, default is commonController
 	      functionName: 'getSecretList', // optional, default is callApi
-	  	projectName: 'admin',
+	  	auth: { username: 'admin', projectName: 'admin' },
 	      params: {
-	        currentPlatform,
-	        project,
-	        name,
-	        type,
-	        desc,
+	        platform_name: currentPlatform,
+	        apiKey,
+	        username,
 	      },
 	    },
 	    {

@@ -26,6 +26,7 @@
 	      controller: 'secretController', // optional, default is commonController
 	      functionName: 'getSecretList', // optional, default is callApi
 	      auth: { username, projectName },
+	      auth: { jwtToken, projectName },
 	      params: {
 	        currentPlatform,
 	        project,

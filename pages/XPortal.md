@@ -19,10 +19,10 @@
 	      actionType: 'GET_SECRET',
 	      clientType: 'GOC',
 	      polling: true,
-	      bundle: true,  // 要整包丟回來
+	      bundle: false,  // 要整包丟回來
 	      retry: { times: 5, interval: 200 }, // 失敗的話重試
-	      // controller: "common", // optional, default
-	      // function: "callApi", // optional, default
+	      controller: 'secretController', // optional, default is commonController
+	      function: 'getSecretList', // optional, default is callApi
 	      auth: { username, projectName },
 	      api: { type: 'secret', name: 'GET_SECRET' },
 	      params: {
@@ -34,14 +34,14 @@
 	      },
 	    },
 	    {
-	      actionType: 'GET_USER_INFO',
-	      clientType: 'GOC',
+	      actionType: 'GET_PRICES',
+	      clientType: 'GOCOIN',
 	      polling: false,
-	      controller: 'userController',
-	      function: 'getUserInfo',
 	      auth: { username, projectName },
+	      template: 'GET_PRICES',
 	      params: {
-	      }
+	        entity: { id },
+	      },
 	    },
 	    [
 	      {

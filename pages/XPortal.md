@@ -24,7 +24,6 @@
 	      controller: 'secretController', // optional, default is commonController
 	      function: 'getSecretList', // optional, default is callApi
 	      auth: { username, projectName },
-	      api: { type: 'secret', name: 'GET_SECRET' },
 	      params: {
 	        currentPlatform,
 	        project,
@@ -38,7 +37,7 @@
 	      clientType: 'GOCOIN',
 	      polling: false,
 	      auth: { username, projectName },
-	      template: 'GET_PRICES',
+	      api: 'getPrices',
 	      params: {
 	        entity: { id },
 	      },

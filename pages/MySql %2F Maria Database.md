@@ -1,3 +1,4 @@
+-
 - # Docker Install
   ```
   docker run -d --name mariadb -p 3306:3306 -e "MYSQL_USER=kong" -e "MYSQL_PASSWORD=kong" -e "MYSQL_ROOT_PASSWORD=123123" -e "MYSQL_DATABASE=kong" mariadb:10.3.7

@@ -63,13 +63,13 @@
 	- 不過要注意，被複製出來的物件印出來會是空物件，它是透過原型鍊來呼叫到屬性及函式
 	  ```js
 	  const macBook = {
-	  color: 'silver',
-	  turnOn() {
-	    console.log('turning on...');
-	  },
-	  turnOff() {
-	    console.log('turning off...');
-	  }
+	    color: 'silver',
+	    turnOn() {
+	      console.log('turning on...');
+	    },
+	    turnOff() {
+	      console.log('turning off...');
+	    }
 	  }
 	  
 	  // Proper prototype cloning
@@ -92,10 +92,10 @@
 	  console.log(macBook);
 	  /*
 	  {
-	  color: 'silver',
-	  turnOn: [Function: turnOn],
-	  turnOff: [Function: turnOff],
-	  power: 'USB-C'
+	    color: 'silver',
+	    turnOn: [Function: turnOn],
+	    turnOff: [Function: turnOff],
+	    power: 'USB-C'
 	  }
 	  */
 	  console.log(myComputer);
@@ -105,21 +105,21 @@
 	- 確保 class 只有一個 instance，且確定有個 global point 可以存取到這個 instance
 	  ```js
 	  const Database = (function () {
-	  let instance;
+	    let instance;
 	  
-	  function createDatabaseInstance() {
-	    return new Object('Database Instance');
-	  }
-	  
-	  function getDatabaseInstance() {
-	    if (!instance) {
-	      instance = createDatabaseInstance();
+	    function createDatabaseInstance() {
+	      return new Object('Database Instance');
 	    }
 	  
-	    return instance;
-	  }
+	    function getDatabaseInstance() {
+	      if (!instance) {
+	        instance = createDatabaseInstance();
+	      }
 	  
-	  return { getDatabaseInstance }
+	      return instance;
+	    }
+	  
+	    return { getDatabaseInstance }
 	  })();
 	  
 	  const databaseInstance1 = Database.getDatabaseInstance();

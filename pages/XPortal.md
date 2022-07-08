@@ -18,11 +18,13 @@
 	    {
 	      actionType: 'GET_SECRET',
 	      clientType: 'GOC',
-	      polling: true,
-	      bundle: false,  // 要整包丟回來
-	      retry: { times: 5, interval: 200 }, // 失敗的話重試
+	      options: {
+	        polling: true,
+	        bundle: true, // 會跟其它的 bundle api 一起送回前端
+	        retry: { times: 5, interval: 200 }, // 失敗的話重試
+	      },
 	      controller: 'secretController', // optional, default is commonController
-	      function: 'getSecretList', // optional, default is callApi
+	      functionName: 'getSecretList', // optional, default is callApi
 	      auth: { username, projectName },
 	      params: {
 	        currentPlatform,

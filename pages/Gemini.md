@@ -67,7 +67,10 @@ gemini/password
 			- 桂華有開放 apigw 的 api 使用嗎？
 				- 還是 api 放在那裡，要用就用
 			- 桂華的 一般 Dashboard 沒有 工作資源(job)的圖表
-				- 查 code 是在 2020-11-19 的時候 disabled 掉了，ppt 上面還有
+				- 查 code 是在 2020-11-19 的時候 disabled 掉了，不過還放在 ppt 上
+			- admin - Host 沒有 Action 可以改 over commit ratio 了
+				- 2021-01-19 disabled，還放在 ppt 上
+			-
 			-
 	- ## 中科院案 (Ncsist)
 		- 連線資訊

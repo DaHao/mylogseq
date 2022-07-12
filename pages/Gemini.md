@@ -66,6 +66,8 @@ gemini/password
 		- **教育訓練 PPT 問題**
 			- 桂華有開放 apigw 的 api 使用嗎？
 				- 還是 api 放在那裡，要用就用
+			- 桂華的 一般 Dashboard 沒有 工作資源(job)的圖表
+				- 查 code 是在 2020-11-19 的時候 disabled 掉了，ppt 上面還有
 			-
 	- ## 中科院案 (Ncsist)
 		- 連線資訊

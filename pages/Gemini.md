@@ -70,6 +70,9 @@ gemini/password
 				- 查 code 是在 2020-11-19 的時候 disabled 掉了，不過還放在 ppt 上
 			- admin - Host 沒有 Action 可以改 over commit ratio 了
 				- 2021-01-19 disabled，還放在 ppt 上
+			- Availability Zone 的 project tab 中的 owner 欄位是什麼意思？
+				- ![image.png](../assets/image_1657614910777_0.png)
+				-
 			-
 			-
 	- ## 中科院案 (Ncsist)

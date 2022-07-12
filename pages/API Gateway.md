@@ -8,6 +8,17 @@
 	  # PROJECT_ID
 	  curl -u admin: -X GET -k http://10.111.20.10:31215/api/v2/default_k8s/projects/ -H 'x-api-host:goc' -H "x-api-key:$ADMIN_KEY" | jq '.[0].id'
 	  ```
+- # API Key
+	- **找 consumer 的 api key**
+	  ```bash
+	  curl -XGET http://[k8s ip]:31218/consumers/[consumer id]/api_key
+	  ```
+	- **延長 api key expired time**
+	  ```bash
+	  curl -XPATCH http://[k8s ip]:31218/api_key/[key id]
+	   -H 'Content-type:application/json'
+	   -d '{ "reset_expired_days": 180 }'
+	  ```
 - # ACL
   有關 acl 的相關操作
 	- ## 列出 apikey 的 acl

@@ -2,7 +2,7 @@
 - #
 - # Logseq plugin
 	- ## 寫一個可以 encrypt 選取文字的 logseq plugin
-	- ## 寫一個可以插入顏文字的 logseq plugin
+	- ## [[寫一個可以插入顏文字的 logseq plugin]]
 -
 - # Uniform wingzero crawler
   改寫成 js 版本

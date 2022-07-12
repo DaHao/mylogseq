@@ -62,13 +62,11 @@ gemini/password
 		- **Merry 交接事項**
 		  交接的東西放在以下的 google driver 裡
 		  https://drive.google.com/drive/folders/1vAf1OXAaQh7iOz6cAeR-ohZ57iE0F2ZK
-		  
-		  幾點問題：
-			- 目前狀況？
-				- 都更新完了？只差測試？
-			- 大溪營區 - paas code 備份的作用？
-			  	好像有點印象要改什麼
-			- 教育訓練的連結是放在誰的目錄下啊？
+		-
+		- **教育訓練 PPT 問題**
+			- 桂華有開放 apigw 的 api 使用嗎？
+				- 還是 api 放在那裡，要用就用
+			-
 	- ## 中科院案 (Ncsist)
 		- 連線資訊
 		  https://gitlab.com/geminiopencloud/professional-services/ncsist/-/wikis/home

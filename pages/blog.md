@@ -1,6 +1,9 @@
 - {{renderer :tocgen}}
 - #
-# 寫一個可以 encrypt 選取文字的 logseq plugin
+- # Logseq plugin
+	- ## 寫一個可以 encrypt 選取文字的 logseq plugin
+	- ## 寫一個可以插入顏文字的 logseq plugin
+-
 - # Uniform wingzero crawler
   改寫成 js 版本
   https://github.com/issaclin32/wz_uniform_crawler

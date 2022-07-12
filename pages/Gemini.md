@@ -64,6 +64,7 @@ gemini/password
 		  https://drive.google.com/drive/folders/1vAf1OXAaQh7iOz6cAeR-ohZ57iE0F2ZK
 		-
 		- **教育訓練 PPT 問題**
+			- https://docs.google.com/presentation/d/17elWfFXhSWOL4BkIL61G7yrFsU5y8oB_/edit#slide=id.ga2b202a508_0_390
 			- 桂華有開放 apigw 的 api 使用嗎？
 				- 還是 api 放在那裡，要用就用
 			- 桂華的 一般 Dashboard 沒有 工作資源(job)的圖表
@@ -73,7 +74,10 @@ gemini/password
 			- Availability Zone 的 project tab 中的 owner 欄位是什麼意思？
 				- Jeff 表示：owner 是記錄如果這個 az 需要收費的話，要算在哪個 Project 頭上
 				- ![image.png](../assets/image_1657614910777_0.png)
-				-
+			-
+			- https://docs.google.com/presentation/d/1DVNKOLJzsGew2dE8sDZj_mAPjuBa1kAq/edit#slide=id.p2
+			- 故障排除的 PPT 只有 xportal ，剩下的 apigw, db, rabbitmq …都沒有
+			-
 			-
 			-
 	- ## 中科院案 (Ncsist)

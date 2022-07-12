@@ -71,6 +71,7 @@ gemini/password
 			- admin - Host 沒有 Action 可以改 over commit ratio 了
 				- 2021-01-19 disabled，還放在 ppt 上
 			- Availability Zone 的 project tab 中的 owner 欄位是什麼意思？
+				- Jeff 表示：owner 是記錄如果這個 az 需要收費的話，要算在哪個 Project 頭上
 				- ![image.png](../assets/image_1657614910777_0.png)
 				-
 			-

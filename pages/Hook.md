@@ -1,0 +1,10 @@
+- {{renderer :tocgen}}
+-
+- # useState vs. useReducer
+	- [什麼時候該用 useState？什麼時候該用 useReducer？](https://kentcdodds.com/blog/should-i-usestate-or-usereducer)
+	- **重點摘錄**
+		- 當 state 是獨立元素的時候使用 useState
+		- 當state 中某個元素依賴於另一個元素時，使用 useReducer
+-
+- # useEffect
+	-

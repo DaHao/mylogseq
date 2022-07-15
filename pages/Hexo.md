@@ -8,9 +8,7 @@
    https://github.com/D0n9X1n/hexo-blog-encrypt/blob/master/ReadMe.zh.md
 - # Download from Github
   $ git clone https://github.com/DaHao/myhexo.git
-- # Command
-  ```shell
-  # run at local
+- # run at local
   $ hexo s
   $ hexo s --draft // 有草稿的時候
   
@@ -23,7 +21,6 @@
   
   # 發佈草稿
   $ hexo publish "Title"
-  ```
 - # 文章可以給的參數
   ```
   ---

@@ -10,7 +10,7 @@
 	- [useEffect 完整指南](https://overreacted.io/zh-hant/a-complete-guide-to-useeffect/#tldr)
 	  目前看到寫最好的 useEffect 的文章，不過還是常常忘記裡面的東西，應該需要再多讀幾遍
 	-
-	- 在 useEffect 中使用函式，分成兩種狀況
+	- ## 使用函式注意事項
 	- 1. [函式依賴於 state or props](https://pjchender.dev/react/react-doc-use-effect-hooks#%E5%87%BD%E5%BC%8F%E7%9B%B8%E4%BE%9D%E6%96%BC-state-%E6%88%96-prop)
 		- 若函式不需要重複使用：直接放進 useEffect 裡
 		  		```javascript
@@ -156,7 +156,7 @@
 		  
 		  ReactDOM.render(<App />, document.getElementById('root'));
 		  ```
-	- ### useEffect 的 return 
+	- ## useEffect 的 return 
 	  參考：[深度梳理 React Hook 对副作用操作的处理（二）](https://www.jianshu.com/p/fdab5a6fa1aa)
 	  **重點摘錄**
 	- 什麼是副作用

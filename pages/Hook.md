@@ -191,9 +191,11 @@
 	  }, [companies]);
 	  ```
 - # useCallback
+  collapsed:: true
 	- useCallback 的使用時機：
 	  function 會使用 props / state，而且會被一個以上的 useEffect 呼叫時
 - # useMemo
+  collapsed:: true
 	- 使用 useMemo 的目的在於 "避免重複進行秏時運算"
 	- 使用 useMemo 前需要先考慮兩件事情
 		- 傳給 useMemo 的 function 資源消耗大不大？
@@ -201,6 +203,7 @@
 	- 輸入相同時，useMemo 回傳值的引用是否會改變？
 		- 如果 useMemo 回傳值是原始值(string、number、boolean etc.)，引用不變，就不會再次 render
 - # Debounce
+  collapsed:: true
 	- Debounce 的作用在於延遲輸入，以下示範當 user 停止輸入一段時間後，觸發 handleChange
 	-
 	- 為什麼不用 useCallback 而是 useMemo，請參考 [debounce callback](https://kyleshevlin.com/debounce-and-throttle-callbacks-with-react-hooks)

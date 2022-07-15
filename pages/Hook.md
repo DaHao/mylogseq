@@ -56,102 +56,106 @@
 		  
 		  export default FetchData;
 		  ```
-		- useCallback 回傳的函式一樣可以當成 props 傳給子元件
+		- useCallback 回傳的函式一樣可以當成 props 傳給子元件，但有一點很麻煩的是，你不知道傳進來的 props function 有沒有被 useCallback 包起來……
 		  ```javascript
 		  // https://overreacted.io/a-complete-guide-to-useeffect/#but-i-cant-put-this-function-inside-an-effect
 		  function Parent() {
 		  	const [query, setQuery] = useState('react');
-		  	- // ✅ Preserves identity until query changes
+		  	// ✅ Preserves identity until query changes
 		  	const fetchData = useCallback(() => {
 		  		const url = 'https://hn.algolia.com/api/v1/search?query=' + query;
 		  		// ... Fetch data and return it ...
 		  	}, [query]); // ✅ Callback deps are OK
-		  - return <Child fetchData={fetchData} />;
+		  	
+		    	return <Child fetchData={fetchData} />;
 		  }
-		  - function Child({ fetchData }) {
-		  let [data, setData] = useState(null);
-		  - useEffect(() => {
-		  	fetchData().then(setData);
-		  }, [fetchData]); // ✅ Effect deps are OK
-		  - // ...
+		  
+		  function Child({ fetchData }) {
+		  	let [data, setData] = useState(null);
+		  	useEffect(() => {
+		  		fetchData().then(setData);
+		  	}, [fetchData]); // ✅ Effect deps are OK
+		    	// ...
 		  }
 		  ```
-	-
 	- 2. [函式不依賴 state or props](https://pjchender.dev/react/react-doc-use-effect-hooks#%E5%87%BD%E5%BC%8F%E4%B8%8D%E4%BE%9D%E8%B3%B4-state-%E6%88%96-prop)
 		- 將函式拉到 function component 外
-		  		```
-		  		function getFetchUrl(query) {
-		  return 'https://hn.algolia.com/api/v1/search?query=' + query;
-		  		}
+		  		```javascript
+		  function getFetchUrl(query) {
+		  	return 'https://hn.algolia.com/api/v1/search?query=' + query;
+		  }
 		  
-		  		function SearchResults() {
-		  useEffect(() => {
-		  			const url = getFetchUrl('react');
-		  			// ... Fetch data and do something ...
-		  }, []); // ✅ Deps are OK
+		  function SearchResults() {
+		  	useEffect(() => {
+		  		const url = getFetchUrl('react');
+		  		// ... Fetch data and do something ...
+		  	}, []); // ✅ Deps are OK
 		  
-		  useEffect(() => {
-		  			const url = getFetchUrl('redux');
-		  			// ... Fetch data and do something ...
-		  }, []); // ✅ Deps are OK
+		  	useEffect(() => {
+		  		const url = getFetchUrl('redux');
+		  		// ... Fetch data and do something ...
+		  	}, []); // ✅ Deps are OK
 		  
-		  // ...
-		  		}
-		  		```
+		  	// ...
+		  }
+		  ```
 		- 使用 useCallback
-		  		```
-		  		import React, { useEffect, useCallback } from 'react';
+		  		```javascript
+		  import React, { useEffect, useCallback } from 'react';
 		  
-		  		const FetchData = () => {
-		  console.log('invoke function component');
+		  const FetchData = () => {
+		  	console.log('invoke function component');
+		    
+		  	const getFetchUrl = useCallback((query) => {
+		  		return 'https://hn.algolia.com/api/v1/search?query=' + query;
+		  	}, []);
 		  
-		  const getFetchUrl = useCallback((query) => {
-		  			return 'https://hn.algolia.com/api/v1/search?query=' + query;
-		  }, []);
+		  	useEffect(() => {
+		  		const url = getFetchUrl('react');
+		  		// 對 url 做某些事...
+		  	}, [getFetchUrl]);
 		  
-		  useEffect(() => {
-		  			const url = getFetchUrl('react');
-		  			// 對 url 做某些事...
-		  }, [getFetchUrl]);
+		  	useEffect(() => {
+		  		const url = getFetchUrl('redux');
+		  		// 對 url 做某些事...
+		  	}, [getFetchUrl]);
 		  
-		  useEffect(() => {
-		  			const url = getFetchUrl('redux');
-		  			// 對 url 做某些事...
-		  }, [getFetchUrl]);
+		      return (
+		          <div>
+		              {console.log('render')}
+		              <h1>Fetch Data</h1>
+		          </div>
+		      );
+		  };
 		  
-		  return (
-		  			<div>
-		   {console.log('render')}
-		   <h1>Fetch Data</h1>
-		  			</div>
-		  );
-		  		};
+		  export default FetchData;
+		  ```
+		- **補充**
+		  若是要在 useEffect 呼叫 props 的函式，最好是在 parent componet 把被呼叫的函式用 useCallback 包起來，再傳給 child component
+		- 參考：[useEffect call function in throw props](https://stackoverflow.com/questions/58747424/useeffect-show-a-warning-if-i-call-a-function-in-throw-props)
+		  	```javascript
+		  const { useState, useCallback } = React;
 		  
-		  		export default FetchData;
-		  		```
-		  	**補充**
-		  	若是要在 useEffect 呼叫 props 的函式，最好是在 parent componet 把被呼叫的函式用 useCallback 包起來，再傳給 child component
-		  	參考：[useEffect call function in throw props](https://stackoverflow.com/questions/58747424/useeffect-show-a-warning-if-i-call-a-function-in-throw-props)
-		  	```js
-		  	const { useState, useCallback } = React;
-		  	function App() {
-		  	  const [count, setCount] = useState(1);
-		  	  const add = () => setCount(count => count + 1);
-		  	  const aCallback = useCallback(() => count, [count]);
-		  
-		  	  return (
+		  function App() {
+		  	const [count, setCount] = useState(1);
+		  	const add = () => setCount(count => count + 1);
+		  	const aCallback = useCallback(() => count, [count]);
+		  	
+		    	return (
 		  		<div>
-		  {count}
-		  <button onClick={add}>+</button>
-		  <Child aCallback={aCallback} />
+		  			{count}
+		  			<button onClick={add}>+</button>
+		  			<Child aCallback={aCallback} />
 		  		</div>
-		  	  );
-		  	}
-		  	function Child({ aCallback }) {
-		  	  return <div>{aCallback()}</div>;
-		  	}
-		  	ReactDOM.render(<App />, document.getElementById('root'));
-		  	```
+		   	);
+		  }
+		  
+		  function Child({ aCallback }) {
+		  	return <div>{aCallback()}</div>;
+		  }
+		  
+		  ReactDOM.render(<App />, document.getElementById('root'));
+		  ```
 	- ### useEffect 的 return 
 	  參考：[深度梳理 React Hook 对副作用操作的处理（二）](https://www.jianshu.com/p/fdab5a6fa1aa)
 	  **重點摘錄**

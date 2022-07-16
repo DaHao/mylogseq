@@ -1,3 +1,5 @@
+- {{renderer :tocgen}}
+-
 - Hexo 是一個可以用 Github 來架網站的軟體
 - # 可以調整的地方
   * sakura theme
@@ -7,24 +9,24 @@
   * 可以讓你在 blog 上面的文章輸入密碼後才能看
    https://github.com/D0n9X1n/hexo-blog-encrypt/blob/master/ReadMe.zh.md
 -
-# Start
-```bash
-# Download from Github
-$ git clone https://github.com/DaHao/myhexo.git
-
-# run at local
-$ hexo s
-$ hexo s --draft // 有草稿的時候
-
-# deploy
-$ hexo clean & hexo deploy
-
-# post
-# 寫草稿
-$ hexo new draft "Title"
-# 發佈草稿
-$ hexo publish "Title"
-```
+- # 基本操作
+  ```bash
+  # Download from Github
+  $ git clone https://github.com/DaHao/myhexo.git
+  
+  # run at local
+  $ hexo s
+  $ hexo s --draft // 有草稿的時候
+  
+  # deploy
+  $ hexo clean & hexo deploy
+  
+  # post
+  # 寫草稿
+  $ hexo new draft "Title"
+  # 發佈草稿
+  $ hexo publish "Title"
+  ```
 - # 文章可以給的參數
   ```
   ---
@@ -38,7 +40,6 @@ $ hexo publish "Title"
   ```
 -
 - # 找圖片的方式
-	- 目前有兩個網站可以用
 	- ## [Pexels](https://www.pexels.com/zh-tw/)
 		- 這個網站的圖片可以不用版權，不過記得附上來源比較好
 		- 找到喜歡的圖片點進去後，通常右下角會有個分享可以按
@@ -54,7 +55,6 @@ $ hexo publish "Title"
 		  banner_img: https://images.pexels.com/photos/7035978/pexels-photo-7035978.jpeg
 		  ---
 		  [Pexels 上由 Peter Lopez 拍攝的相片](https://www.pexels.com/zh-tw/photo/7035978/)
-		  
 		  ```
 - # 更新
 	- 可以利用 `npm-upgrade` 這個套件來幫忙進行更新

@@ -6,21 +6,25 @@
   	https://github.com/honjun/hexo-theme-sakura
   * 可以讓你在 blog 上面的文章輸入密碼後才能看
    https://github.com/D0n9X1n/hexo-blog-encrypt/blob/master/ReadMe.zh.md
-- # Download from Github
-  $ git clone https://github.com/DaHao/myhexo.git
-- # run at local
-  $ hexo s
-  $ hexo s --draft // 有草稿的時候
-  
-  # deploy
-  $ hexo clean & hexo deploy
-  
-  # post
-  # 寫草稿
-  $ hexo new draft "Title"
-  
-  # 發佈草稿
-  $ hexo publish "Title"
+-
+# Start
+```bash
+# Download from Github
+$ git clone https://github.com/DaHao/myhexo.git
+
+# run at local
+$ hexo s
+$ hexo s --draft // 有草稿的時候
+
+# deploy
+$ hexo clean & hexo deploy
+
+# post
+# 寫草稿
+$ hexo new draft "Title"
+# 發佈草稿
+$ hexo publish "Title"
+```
 - # 文章可以給的參數
   ```
   ---

@@ -43,6 +43,19 @@ $ hexo publish "Title"
 		- 這個網站的圖片可以不用版權，不過記得附上來源比較好
 		- 找到喜歡的圖片點進去後，通常右下角會有個分享可以按
 		  ![image.png](../assets/image_1657944295808_0.png)
+		- 按複製，會直接複製連結
+		  ![image.png](../assets/image_1657944349897_0.png)
+		- 對著圖片按右鍵，可以複製圖片位址
+		  ![image.png](../assets/image_1657944389303_0.png)
+		- 我通常會在開頭寫上圖片資訊及來源
+		  ```yaml
+		  ---
+		  index_img: https://images.pexels.com/photos/7035978/pexels-photo-7035978.jpeg
+		  banner_img: https://images.pexels.com/photos/7035978/pexels-photo-7035978.jpeg
+		  ---
+		  [Pexels 上由 Peter Lopez 拍攝的相片](https://www.pexels.com/zh-tw/photo/7035978/)
+		  
+		  ```
 - # 更新
 	- 可以利用 `npm-upgrade` 這個套件來幫忙進行更新
 	  ```bash

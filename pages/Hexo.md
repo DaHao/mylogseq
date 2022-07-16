@@ -37,6 +37,21 @@ $ hexo publish "Title"
   ---
   ```
 -
+- # 找圖片的方式
+	- 目前有兩個網站可以用
+	- ## [Pexels](https://www.pexels.com/zh-tw/)
+		- 這個網站的圖片可以不用版權，不過記得附上來源比較好
+		- 找到喜歡的圖片點進去後，通常右下角會有個分享可以按
+		  ![image.png](../assets/image_1657944295808_0.png)
+- # 更新
+	- 可以利用 `npm-upgrade` 這個套件來幫忙進行更新
+	  ```bash
+	  # -g 讓 command 可在全域使用
+	  $ npm install -g npm-upgrade
+	  $ npm-upgrade
+	  
+	  $ npm update
+	  ```
 - # 自訂網域設定教學
   https://www.larrynote.com/website-service/30/
   雖然後面的步驟好像沒有作用，我到 google dns 作完設定後好像就連得到了……？

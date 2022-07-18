@@ -40,7 +40,9 @@
   ---
   ```
 	- excerpt：顯示在首頁的字句
--
+- # 文章中可以用的標籤
+	- hexo 新增了很多標籤可以用，還挺不錯的，懶得搬，自行參考
+	- https://hexo.io/zh-tw/docs/tag-plugins
 - # 找圖片的方式
 	- ## [Pexels](https://www.pexels.com/zh-tw/)
 		- 這個網站的圖片可以不用版權，不過記得附上來源比較好

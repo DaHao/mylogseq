@@ -14,6 +14,8 @@
 - # 乾乾
 	- ## 皇家貓處方 UMC34泌尿道低卡路里
 	  http://happypet.com.tw/product/64544-umc34-1-5kg/
+	- ## 法米納 藜麥無穀鴨肉蔓越莓 泌尿道保健貓糧(QC-5) 900g分裝包
+	  http://happypet.com.tw/product/%e6%b3%95%e7%b1%b3%e7%b4%8d-%e8%97%9c%e9%ba%a5%e7%84%a1%e7%a9%80%e9%b4%a8%e8%82%89%e8%94%93%e8%b6%8a%e8%8e%93-%e6%b3%8c%e5%b0%bf%e9%81%93%e4%bf%9d%e5%81%a5%e8%b2%93%e7%b3%a7900g%e5%88%86%e8%a3%9d/
 - # 保健食品
 	- ## Lintbells YUMOVE Cat優骼服
 	  http://happypet.com.tw/product/yumove-advance-cat%e5%84%aa%e9%aa%bc%e6%9c%8d%e5%8a%a0%e5%bc%b7%e7%89%88%e8%b2%93%e7%94%a8%e9%a3%9f%e5%93%8160%e8%86%a0%e5%9b%8a/

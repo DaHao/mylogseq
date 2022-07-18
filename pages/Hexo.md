@@ -33,11 +33,13 @@
   title: Axios 替換 Request 上傳檔案
   tags:
     - Troubleshooting
+  excerpt: 在研究 Async.js waterfall 的時候，感覺像被 javascript 給陰到了一樣
   index_img: 'https://cdn.pixabay.com/photo/2016/12/30/17/27/cat-1941089_1280.jpg'
   banner_img: 'https://cdn.pixabay.com/photo/2016/12/30/17/27/cat-1941089_1280.jpg'
   date: 2022-02-06 15:18:30
   ---
   ```
+	- excerpt：顯示在首頁的字句
 -
 - # 找圖片的方式
 	- ## [Pexels](https://www.pexels.com/zh-tw/)

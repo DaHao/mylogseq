@@ -404,6 +404,9 @@
 		  Test server health using Helm test:
 		    helm test openldap
 		  ```
+		- Notes 寫的不能全抄，ldapsearch 會失敗
+		  以這次桃捷的來說，domain 是 `tymetro.com` 的話，就要改成
+		  `ldapsearch -x -H ldap://openldap.gemini.svc.cluster.local:389 -b dc=tymetro,dc=com -D "cn=admin,dc=tymetro,dc=com" -W`
 # Configuration
 	- ## 確認 Config 帳號
 		- Command `$ ldapsearch -xD '' -s base +`

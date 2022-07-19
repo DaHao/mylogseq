@@ -1,6 +1,5 @@
 - {{renderer :tocgen}}
 - # 基本操作 Basic
-  collapsed:: true
 	- ## 搜尋
 	  collapsed:: true
 		- Host ip 要改成LDAP Server domain/IP
@@ -13,6 +12,7 @@
 		  $ ldapsearch -x -LLL -b "" -s base + 
 		  ```
 	- ## 新增
+	  collapsed:: true
 		- ```
 		  ldapadd -x -D cn=admin,dc=nchc,dc=com -w admin -f /container/service/slapd/assets/test/user2.ldif -H ldap://ldap-0-service 
 		  
@@ -50,7 +50,6 @@
 		  # 如果要變動 cn 的話，就是更改 newrdn 的值，如 uid=xxx
 		  ```
 	- ## 刪除
-	  collapsed:: true
 		- ```
 		  ldapdelete -xD cn=admin,dc=nchc,dc=com -w admin  uid=yee,dc=nchc,dc=com  -H ldap://ldap-0-service
 		  ```

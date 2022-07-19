@@ -212,7 +212,6 @@
 		- 建立後記得加上 syncrepl replication
 		  ((2634bde0-f6e2-406c-aa30-dbf34a3df7d1))
 - # 設定 Log 檔的方式
-  collapsed:: true
 	- Openldap 預設會透過 rsyslog 的 local4 記錄所有的訊息
 	- **Add 30-ldap.conf in /etc/rsyslog.d**
 	  

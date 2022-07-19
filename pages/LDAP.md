@@ -330,6 +330,32 @@
 		  $ tar -xzvf openldap-1.2.7.tgz
 		  
 		  # 修改文件
+		  $ cd openldap
+		  $ vim values.yaml
+		  
+		  # install
+		  $ helm install --name openldap --namespace gemini .
+		  ```
+		- 安裝好後會有 Notes
+		  ```txt
+		  NOTES:
+		  OpenLDAP has been installed. You can access the server from within the k8s cluster using:
+		  
+		    openldap.gemini.svc.cluster.local:389
+		  
+		  
+		  You can access the LDAP adminPassword and configPassword using:
+		  
+		    kubectl get secret --namespace gemini openldap -o jsonpath="{.data.LDAP_ADMIN_PASSWORD}" | base64 --decode; echo
+		    kubectl get secret --namespace gemini openldap -o jsonpath="{.data.LDAP_CONFIG_PASSWORD}" | base64 --decode; echo
+		  
+		  
+		  You can access the LDAP service, from within the cluster (or with kubectl port-forward) with a command like (replace password and domain):
+		    ldapsearch -x -H ldap://openldap.gemini.svc.cluster.local:389 -b dc=example,dc=org -D "cn=admin,dc=example,dc=org" -w $LDAP_ADMIN_PASSWORD
+		  
+		  
+		  Test server health using Helm test:
+		    helm test openldap
 		  ```
 # Configuration
 	- ## 確認 Config 帳號

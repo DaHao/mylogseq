@@ -297,7 +297,6 @@
 		  ```
 		-
 	- ## Docker
-	  collapsed:: true
 		- 使用時，請接成一行指令
 		  ```command
 		   docker run -p 389:389 -p 636:636 --name myldap
@@ -333,7 +332,6 @@
 		  # 修改文件
 		  ```
 # Configuration
-collapsed:: true
 	- ## 確認 Config 帳號
 		- Command `$ ldapsearch -xD '' -s base +`
 		    你應該可以看到類似下圖的資訊
@@ -691,7 +689,6 @@ collapsed:: true
 	- LDAP_TLS_VERIFY_CLIENT，這個方法並不是很好，關掉了 client 端的驗證。
 	  後來發現不用加這個也可以 work
 - # 封存記錄
-  collapsed:: true
 	- 這裡的寫法已經有點過時了，現在的 ldap 並不建議使用 slapd.conf 的做法
 	  ```bash
 	  $ sudo su

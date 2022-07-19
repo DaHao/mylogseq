@@ -315,6 +315,23 @@
 		  安裝的時候注意 namespace 及 service 需要 nodePort
 		  https://hub.kubeapps.com/charts/funkypenguin/openldap
 		  https://github.com/helm/charts/tree/master/stable/openldap
+		- 如果可以用 helm，又有網路的話
+		  ```bash
+		  # 確認 repo
+		  $ helm repo list
+		  
+		  # 沒有 repo 的話，新增 repo
+		  $ helm repo add stable http://mirror.azure.cn/kubernetes/charts/
+		  
+		  # search & download openldap
+		  $ helm search openldap
+		  $ helm fetch stable/openldap
+		  
+		  # tar
+		  $ tar -xzvf openldap-1.2.7.tgz
+		  
+		  # 修改文件
+		  ```
 # Configuration
 collapsed:: true
 	- ## 確認 Config 帳號

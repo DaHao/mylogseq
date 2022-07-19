@@ -337,7 +337,52 @@
 		  $ helm install --name openldap --namespace gemini .
 		  ```
 		- **values.yaml 設定注意事項**
-			-
+			- `tls.enabled: false`
+			  寫 true 的話，好像還要做一些額外設定，不然會有下列錯誤
+			  至於要做什麼設定，我還不知道
+			  ```
+			    Warning  FailedMount       5m34s                 kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[data tls certs default-token-ml46w]: timed out waiting for the condition
+			    Warning  FailedMount       3m19s                 kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[default-token-ml46w data tls certs]: timed out waiting for the condition
+			    Warning  FailedMount       90s (x11 over 7m41s)  kubelet, tyc-stg-paas-10  MountVolume.SetUp failed for volume "tls" : secret "tymetro" not found
+			    Warning  FailedMount       64s                   kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[tls certs default-token-ml46w data]: timed out waiting for the condition
+			  ```
+			- `env.LDAP_TLS: "true"`
+			  這個可以是 true，測過沒問題
+			- `persitence.enabled`
+			  必須要自行建立 storage class，然後 pv 也要自己建…...
+			  不然會有找不到的錯誤
+			  ```yaml
+			  persistence:
+			    enabled: true
+			    storageClass: "local-storage"
+			  ```
+				- ```yaml
+				  # sc.yaml
+				  apiVersion: storage.k8s.io/v1
+				  kind: StorageClass
+				  metadata:
+				    name: local-storage
+				    namespace: gemini
+				  provisioner: kubernetes.io/no-provisioner
+				  volumeBindingMode: WaitForFirstConsumer
+				  ```
+				- pv 還有一點要注意，資料夾要自己建，不需要設定資料夾權限
+				  ```yaml
+				  # pv.yaml
+				  persistence:
+				    enabled: true
+				    ## database data Persistent Volume Storage Class
+				    ## If defined, storageClassName: <storageClass>
+				    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+				    ## If undefined (the default) or set to null, no storageClassName spec is
+				    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+				    ##   GKE, AWS & OpenStack)
+				    ##
+				    storageClass: "local-storage"
+				    accessMode: ReadWriteOnce
+				    size: 8Gi
+				    # existingClaim: ""
+				  ```
 		- 安裝好後會有 Notes
 		  ```txt
 		  NOTES:

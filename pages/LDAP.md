@@ -71,7 +71,6 @@
 		  # 好像還是會有點問題，建議用之前再測試一下
 		  ```
 	- ## Config 操作
-	  collapsed:: true
 		- **重新生成 Config**
 		  
 		  ```
@@ -98,7 +97,6 @@
 		  -f: slapd.conf 位置
 		  ```
 	- ## 備份
-	  collapsed:: true
 		- ```
 		  # 備份Config
 		  $ slapcat -n 0 -l config.ldif
@@ -123,7 +121,6 @@
 		  $ slapadd -n 1 -F /config/directory/slapd.d -l /backups/data.ldif -w
 		  ```
 	- ## Disable user
-	  collapsed:: true
 		- 使用這個 objectClass pwdAccountLockedTime  
 		    [http://www.openldap.org/software/man.cgi?query=slapo-ppolicy&sektion=5&apropos=0&manpath=OpenLDAP+2.3-Release#pwdAccountLockedTime](http://www.openldap.org/software/man.cgi?query=slapo-ppolicy&sektion=5&apropos=0&manpath=OpenLDAP+2.3-Release#pwdAccountLockedTime)
 	- ## 找出 Entry 的建立時間
@@ -312,7 +309,7 @@
 		  安裝的時候注意 namespace 及 service 需要 nodePort
 		  https://hub.kubeapps.com/charts/funkypenguin/openldap
 		  https://github.com/helm/charts/tree/master/stable/openldap
-		- 如果可以用 helm，又有網路的話
+		- 如果可以用 helm，又有網路的話：[helm 安裝 ldap](https://www.huaqiang.art/2020/04/01/openldap/)
 		  ```bash
 		  # 確認 repo
 		  $ helm repo list

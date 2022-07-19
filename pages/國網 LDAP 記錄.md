@@ -221,8 +221,8 @@
 			- 不過這一段有問題，openldap-servers 裡面沒有 slapd.conf，只有 slapd.ldif  
 			  試過之後發現 slapd.ldif 沒辦法用 `slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d` 來重建 slapd.d
 			- 直接的解法  
-			  ```
-			  			  slapadd -n 0 -F /etc/openldap/slapd.d -l slapd.ldif
+			  ```bash
+			  $ slapadd -n 0 -F /etc/openldap/slapd.d -l slapd.ldif
 			  ```
 			- 檔案就會 config 進 slapd.d 了，然後記得要改變擁有者 `chown -R ldap:ldap slapd.d`，重開 slapd service `systemctl restart slapd`
 			- replication.ldif  

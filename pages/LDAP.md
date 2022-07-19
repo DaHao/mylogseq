@@ -312,8 +312,7 @@
 		   --detach osixia/openldap:1.3.0
 		  ```
 	- ## helm
-	  collapsed:: true
-		- 之前寫的有關 kubnetes 安裝 ldap 的 yalm 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
+		- 之前寫的有關 kubnetes 安裝 ldap 的 yaml 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
 		  安裝的時候注意 namespace 及 service 需要 nodePort
 		  https://hub.kubeapps.com/charts/funkypenguin/openldap
 		  https://github.com/helm/charts/tree/master/stable/openldap

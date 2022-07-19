@@ -12,7 +12,6 @@
 		  $ ldapsearch -x -LLL -b "" -s base + 
 		  ```
 	- ## 新增
-	  collapsed:: true
 		- ```
 		  ldapadd -x -D cn=admin,dc=nchc,dc=com -w admin -f /container/service/slapd/assets/test/user2.ldif -H ldap://ldap-0-service 
 		  

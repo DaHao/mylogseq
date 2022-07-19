@@ -336,6 +336,8 @@
 		  # install
 		  $ helm install --name openldap --namespace gemini .
 		  ```
+		- **values.yaml 設定注意事項**
+			-
 		- 安裝好後會有 Notes
 		  ```txt
 		  NOTES:

@@ -122,6 +122,12 @@ gemini/password
 		- 這個 branch 在 build image 時只會 build 一個 image (backend)，之前的做法是在要 build image (tag) 前，都會去修改 gitlab-ci.yml 的 VERSION 數字，可以參考最後一次的 commit。然後將 image 直接 cp 到環境中，將 image load 進去後就直接砍 pod 更新 (沒在用 helm package)
 		-
 		- 我進去 prod 的環境測試時，其實是有 helm 的，我們的安裝也是透過 helm，因此如果要升級的話，其實可以下 `helm upgrade` 的指令
+	- ## 桃園捷運
+		- vpn global protector
+		- https://gitlab.com/geminiopencloud/professional-services/tymetro/-/wikis/home
+		- ssh -i tymetro.key tycloud@10.78.19.156
+			- tymetro.key 放在我的 家目錄 底下
+		-
 -
 	- ## Ncloud
 		- Ncloud 的 branch 就是 EDU

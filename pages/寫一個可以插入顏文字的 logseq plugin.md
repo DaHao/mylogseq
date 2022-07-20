@@ -1,9 +1,3 @@
--
--
-- 如何寫 plugin 的教學
-- https://gist.github.com/xyhp915/bb9f67f5b430ac0da2629d586a3e4d69
--
-- 另一個中文教學
-- https://correctroad.gitbook.io/logseq-plugins-in-action/chapter-1/a-random-statement-plugins
+- {{renderer :tocgen}}
 -
 -

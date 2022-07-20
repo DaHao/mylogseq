@@ -149,3 +149,34 @@ gemini/password
 	- https://gitlab.com/geminiopencloud/product-management2/2.-requirements/ai-console-2021-requirements/-/issues/104
 	-
 	- https://hackmd.io/U8DbPfhQR_6qLVqRNtHGIg?view
+- # Issue 流程
+	- 此 Issue 制定承接、開發、解決 Issue 時，所需注意事項
+	-
+	- **角色定義**
+	  定義三個角色，方便以下 SOP 進行
+		- 開立者： 開 Issue 的人
+		- 承接者： 負責此張 Issue 的人
+		- Reviewer： 負責 Review MR 的人
+	-
+	- ## 開立 Issue 時
+		- [開立者]注意是否有標上 Milestone
+		- [開立者]注意是否有 time tracking 評估時間
+		- [承接者]注意 Labels 是否有標上該 Issue 所屬 Project & Component
+	- ## 解決 Issue 時
+		- [承接者] 將 Issue 加上 `Doing` label
+		- [承接者] 注意 Description 是否有描述不清，如果有，請開立者補齊
+		- [承接者] 可自行規劃如何解決 Issue，如果有需要，可在 Issue 內容中加上 action items
+	- ## 收尾 Issue 時
+		- [承接者] 需以 `/spend` 記錄實際花費時間
+			- spend memo: `plan`, `coding`
+		- [承接者] 是否加上 comment 方便後來的人快速暸解 Issue
+			- Issue root cause
+			- 解決 Issue 時遇到什麼困難、如何解決？
+			- 這個 Issue apply 時，需要什麼設置條件或需要注意什麼？
+	- ## 發 MR 時
+		- [承接者] MR 描述中需要有 Issue 編號，也可以加上簡短描述及注意事項
+		- [承接者] 將 MR 加上跟 Issue 同樣的 labels
+		- [承接者] Review 過程中，記錄實際花費時間
+			- spend memo: `fix`
+		- [Reviewer] Review 過程中，記錄實際花費時間
+			- spend memo: `review`

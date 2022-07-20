@@ -1,6 +1,5 @@
 - {{renderer :tocgen}}
 - # 基本操作 Basic
-  collapsed:: true
 	- ## 搜尋
 	  collapsed:: true
 		- Host ip 要改成LDAP Server domain/IP
@@ -50,7 +49,6 @@
 		  # 如果要變動 cn 的話，就是更改 newrdn 的值，如 uid=xxx
 		  ```
 	- ## 刪除
-	  collapsed:: true
 		- ```
 		  ldapdelete -xD cn=admin,dc=nchc,dc=com -w admin  uid=yee,dc=nchc,dc=com  -H ldap://ldap-0-service
 		  ```
@@ -73,7 +71,6 @@
 		  # 好像還是會有點問題，建議用之前再測試一下
 		  ```
 	- ## Config 操作
-	  collapsed:: true
 		- **重新生成 Config**
 		  
 		  ```
@@ -100,7 +97,6 @@
 		  -f: slapd.conf 位置
 		  ```
 	- ## 備份
-	  collapsed:: true
 		- ```
 		  # 備份Config
 		  $ slapcat -n 0 -l config.ldif
@@ -125,7 +121,6 @@
 		  $ slapadd -n 1 -F /config/directory/slapd.d -l /backups/data.ldif -w
 		  ```
 	- ## Disable user
-	  collapsed:: true
 		- 使用這個 objectClass pwdAccountLockedTime  
 		    [http://www.openldap.org/software/man.cgi?query=slapo-ppolicy&sektion=5&apropos=0&manpath=OpenLDAP+2.3-Release#pwdAccountLockedTime](http://www.openldap.org/software/man.cgi?query=slapo-ppolicy&sektion=5&apropos=0&manpath=OpenLDAP+2.3-Release#pwdAccountLockedTime)
 	- ## 找出 Entry 的建立時間
@@ -212,7 +207,6 @@
 		- 建立後記得加上 syncrepl replication
 		  ((2634bde0-f6e2-406c-aa30-dbf34a3df7d1))
 - # 設定 Log 檔的方式
-  collapsed:: true
 	- Openldap 預設會透過 rsyslog 的 local4 記錄所有的訊息
 	- **Add 30-ldap.conf in /etc/rsyslog.d**
 	  
@@ -298,7 +292,6 @@
 		  ```
 		-
 	- ## Docker
-	  collapsed:: true
 		- 使用時，請接成一行指令
 		  ```command
 		   docker run -p 389:389 -p 636:636 --name myldap
@@ -312,13 +305,104 @@
 		   --detach osixia/openldap:1.3.0
 		  ```
 	- ## helm
-	  collapsed:: true
-		- 之前寫的有關 kubnetes 安裝 ldap 的 yalm 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
+		- 之前寫的有關 kubnetes 安裝 ldap 的 yaml 全都不能用了，安裝不起來，在網路上找了一個 helm 的 chart  還能用，加減用
 		  安裝的時候注意 namespace 及 service 需要 nodePort
 		  https://hub.kubeapps.com/charts/funkypenguin/openldap
 		  https://github.com/helm/charts/tree/master/stable/openldap
+		- 如果可以用 helm，又有網路的話：[helm 安裝 ldap](https://www.huaqiang.art/2020/04/01/openldap/)
+		  ```bash
+		  # 確認 repo
+		  $ helm repo list
+		  
+		  # 沒有 repo 的話，新增 repo
+		  $ helm repo add stable http://mirror.azure.cn/kubernetes/charts/
+		  
+		  # search & download openldap
+		  $ helm search openldap
+		  $ helm fetch stable/openldap
+		  
+		  # tar
+		  $ tar -xzvf openldap-1.2.7.tgz
+		  
+		  # 修改文件
+		  $ cd openldap
+		  $ vim values.yaml
+		  
+		  # install
+		  $ helm install --name openldap --namespace gemini .
+		  ```
+		- **values.yaml 設定注意事項**
+			- `tls.enabled: false`
+			  寫 true 的話，好像還要做一些額外設定，不然會有下列錯誤
+			  至於要做什麼設定，我還不知道
+			  ```
+			    Warning  FailedMount       5m34s                 kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[data tls certs default-token-ml46w]: timed out waiting for the condition
+			    Warning  FailedMount       3m19s                 kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[default-token-ml46w data tls certs]: timed out waiting for the condition
+			    Warning  FailedMount       90s (x11 over 7m41s)  kubelet, tyc-stg-paas-10  MountVolume.SetUp failed for volume "tls" : secret "tymetro" not found
+			    Warning  FailedMount       64s                   kubelet, tyc-stg-paas-10  Unable to attach or mount volumes: unmounted volumes=[tls], unattached volumes=[tls certs default-token-ml46w data]: timed out waiting for the condition
+			  ```
+			- `env.LDAP_TLS: "true"`
+			  這個可以是 true，測過沒問題
+			- `persitence.enabled`
+			  必須要自行建立 storage class，然後 pv 也要自己建…...
+			  不然會有找不到的錯誤
+			  ```yaml
+			  persistence:
+			    enabled: true
+			    storageClass: "local-storage"
+			  ```
+				- ```yaml
+				  # sc.yaml
+				  apiVersion: storage.k8s.io/v1
+				  kind: StorageClass
+				  metadata:
+				    name: local-storage
+				    namespace: gemini
+				  provisioner: kubernetes.io/no-provisioner
+				  volumeBindingMode: WaitForFirstConsumer
+				  ```
+				- pv 還有一點要注意，資料夾要自己建，不需要設定資料夾權限
+				  ```yaml
+				  # pv.yaml
+				  persistence:
+				    enabled: true
+				    ## database data Persistent Volume Storage Class
+				    ## If defined, storageClassName: <storageClass>
+				    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+				    ## If undefined (the default) or set to null, no storageClassName spec is
+				    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+				    ##   GKE, AWS & OpenStack)
+				    ##
+				    storageClass: "local-storage"
+				    accessMode: ReadWriteOnce
+				    size: 8Gi
+				    # existingClaim: ""
+				  ```
+		- 安裝好後會有 Notes
+		  ```txt
+		  NOTES:
+		  OpenLDAP has been installed. You can access the server from within the k8s cluster using:
+		  
+		    openldap.gemini.svc.cluster.local:389
+		  
+		  
+		  You can access the LDAP adminPassword and configPassword using:
+		  
+		    kubectl get secret --namespace gemini openldap -o jsonpath="{.data.LDAP_ADMIN_PASSWORD}" | base64 --decode; echo
+		    kubectl get secret --namespace gemini openldap -o jsonpath="{.data.LDAP_CONFIG_PASSWORD}" | base64 --decode; echo
+		  
+		  
+		  You can access the LDAP service, from within the cluster (or with kubectl port-forward) with a command like (replace password and domain):
+		    ldapsearch -x -H ldap://openldap.gemini.svc.cluster.local:389 -b dc=example,dc=org -D "cn=admin,dc=example,dc=org" -w $LDAP_ADMIN_PASSWORD
+		  
+		  
+		  Test server health using Helm test:
+		    helm test openldap
+		  ```
+		- Notes 寫的不能全抄，ldapsearch 會失敗
+		  以這次桃捷的來說，domain 是 `tymetro.com` 的話，就要改成
+		  `ldapsearch -x -H ldap://openldap.gemini.svc.cluster.local:389 -b dc=tymetro,dc=com -D "cn=admin,dc=tymetro,dc=com" -W`
 # Configuration
-collapsed:: true
 	- ## 確認 Config 帳號
 		- Command `$ ldapsearch -xD '' -s base +`
 		    你應該可以看到類似下圖的資訊
@@ -676,7 +760,6 @@ collapsed:: true
 	- LDAP_TLS_VERIFY_CLIENT，這個方法並不是很好，關掉了 client 端的驗證。
 	  後來發現不用加這個也可以 work
 - # 封存記錄
-  collapsed:: true
 	- 這裡的寫法已經有點過時了，現在的 ldap 並不建議使用 slapd.conf 的做法
 	  ```bash
 	  $ sudo su

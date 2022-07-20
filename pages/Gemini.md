@@ -163,6 +163,7 @@ gemini/password
 		- [開立者]注意是否有 time tracking 評估時間
 		- [承接者]注意 Labels 是否有標上該 Issue 所屬 Project & Component
 	- ## 解決 Issue 時
+		- [承接者] Branch 名稱 `[project]_[issue]_[type]_[description]`
 		- [承接者] 將 Issue 加上 `Doing` label
 		- [承接者] 注意 Description 是否有描述不清，如果有，請開立者補齊
 		- [承接者] 可自行規劃如何解決 Issue，如果有需要，可在 Issue 內容中加上 action items

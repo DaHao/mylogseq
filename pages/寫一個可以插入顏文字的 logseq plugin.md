@@ -1,7 +1,8 @@
 - {{renderer :tocgen}}
 -
--
+- # logseq API
 -
 - # Reference
 	- https://correctroad.gitbook.io/logseq-plugins-in-action/chapter-1/a-random-statement-plugins
 	-
+-
